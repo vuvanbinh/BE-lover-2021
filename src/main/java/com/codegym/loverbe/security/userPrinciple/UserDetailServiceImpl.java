@@ -42,7 +42,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             username = principal.toString();
         }
         //Kiểm tra nếu userName tồn tại trong db thì gắn user = hàm tìm kiếm trong db theo userName
-        if (userRepository.existsByEmail(username)){
+        if (userRepository.existsByUsername(username)){
             user = userService.findByUsername(username);
         }else {
             //Nếu chưa tồn tại thì trả về một thể hiện của lớp User thông qua Optional.of
