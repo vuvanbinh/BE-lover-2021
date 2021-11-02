@@ -25,8 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
@@ -116,6 +115,25 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Iterable<User>> findAll(){
-        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+        Iterable<User> users = userService.findAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<User>>findByIdUser(@PathVariable("id") Optional<User> user){
+        return new ResponseEntity<>(user,HttpStatus.OK);
+    }
+    @GetMapping("/status")
+    public ResponseEntity<?> findAllByStatus() {
+        List<User> userList = userService.findAll();
+        List<User> userList1 = new ArrayList<>();
+        for (int i = 0; i<userList.size(); i++) {
+            if(userList.get(i).getStatus()) {
+                userList1.add(userList.get(i));
+            }
+        }
+        return new ResponseEntity<>(userList1, HttpStatus.OK);
+    }
+
+
+
 }
