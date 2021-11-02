@@ -87,10 +87,6 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
         user.setEmail(signUpForm.getEmail());
         user.setPhoneNumber(signUpForm.getPhoneNumber());
-        user.setAddress(signUpForm.getAddress());
-        user.setAvatar(signUpForm.getAvatar());
-        user.setJoinDate(signUpForm.getJoinDate());
-        user.setStatus(signUpForm.getStatus());
         Set<String> strRole = signUpForm.getRoles();
         Set<Role> roles = new HashSet<>();
         strRole.forEach(role -> {
@@ -112,5 +108,8 @@ public class UserController {
         userService.save(user);
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
+
+
+
 
 }
