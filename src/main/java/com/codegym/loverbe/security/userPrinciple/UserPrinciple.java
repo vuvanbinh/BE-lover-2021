@@ -21,27 +21,38 @@ public class UserPrinciple implements UserDetails {
     private String password;
     private String email;
     private int phoneNumber;
-    private String address;
     private String avatar;
     private LocalDate joinDate;
     private Boolean status;
     private Collection<? extends GrantedAuthority> roles;
 
-    public UserPrinciple(Long id, String name, String username, String password, String email,
-                         int phoneNumber, String address, String avatar, LocalDate joinDate,
-                         Boolean status, Collection<? extends GrantedAuthority> roles) {
+    public UserPrinciple(Long id, String name, String username, String password, String email, int phoneNumber, String avatar, LocalDate joinDate, Boolean status, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.address = address;
         this.avatar = avatar;
         this.joinDate = joinDate;
         this.status = status;
         this.roles = roles;
     }
+
+    //    public UserPrinciple(Long id, String name, String username, String password, String email,
+//                         int phoneNumber, String avatar, LocalDate joinDate,
+//                         Boolean status, Collection<? extends GrantedAuthority> roles) {
+//        this.id = id;
+//        this.name = name;
+//        this.username = username;
+//        this.password = password;
+//        this.email = email;
+//        this.phoneNumber = phoneNumber;
+//        this.avatar = avatar;
+//        this.joinDate = joinDate;
+//        this.status = status;
+//        this.roles = roles;
+//    }
 
     //Hàm build mục đích là build user ở trong request,lưu vào một vùng nhớ static
     public static UserPrinciple build(User user){
@@ -55,7 +66,6 @@ public class UserPrinciple implements UserDetails {
                 user.getPassword(),
                 user.getEmail(),
                 user.getPhoneNumber(),
-                user.getAddress(),
                 user.getAvatar(),
                 user.getJoinDate(),
                 user.getStatus(),
@@ -111,13 +121,6 @@ public class UserPrinciple implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -141,14 +144,6 @@ public class UserPrinciple implements UserDetails {
 
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getAvatar() {
@@ -181,5 +176,13 @@ public class UserPrinciple implements UserDetails {
 
     public void setRoles(Collection<? extends GrantedAuthority> roles) {
         this.roles = roles;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

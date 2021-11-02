@@ -10,11 +10,10 @@ import java.util.Collection;
 public class JwtResponse {
     String token;
     private Long id;
-    private String type = "Bearer";
     private String name;
+    private String type = "Bearer";
     private String email;
     private int phoneNumber;
-    private String address;
     private String avatar;
     private LocalDate joinDate;
     private Boolean status;
@@ -24,7 +23,7 @@ public class JwtResponse {
     }
 
     public JwtResponse(String token, Long id, String name,
-                       String email, int phoneNumber, String address, String avatar,
+                       String email, int phoneNumber,String avatar,
                        LocalDate joinDate, Boolean status,
                        Collection<? extends GrantedAuthority> roles) {
         this.token = token;
@@ -32,7 +31,6 @@ public class JwtResponse {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.address = address;
         this.avatar = avatar;
         this.joinDate = joinDate;
         this.status = status;
@@ -63,14 +61,6 @@ public class JwtResponse {
         this.type = type;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -87,14 +77,6 @@ public class JwtResponse {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getAvatar() {
         return avatar;
     }
@@ -109,6 +91,14 @@ public class JwtResponse {
 
     public void setJoinDate(LocalDate joinDate) {
         this.joinDate = joinDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Boolean getStatus() {
