@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class UserPrinciple implements UserDetails {
     private static final long serialVersionUID =1L;
     private Long id;
+    private String name;
     private String username;
     @JsonIgnore
     private String password;
@@ -25,10 +26,9 @@ public class UserPrinciple implements UserDetails {
     private Boolean status;
     private Collection<? extends GrantedAuthority> roles;
 
-    public UserPrinciple(Long id, String username, String password, String email,
-                         int phoneNumber, String avatar, LocalDate joinDate,
-                         Boolean status, Collection<? extends GrantedAuthority> roles) {
+    public UserPrinciple(Long id, String name, String username, String password, String email, int phoneNumber, String avatar, LocalDate joinDate, Boolean status, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
+        this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -39,6 +39,21 @@ public class UserPrinciple implements UserDetails {
         this.roles = roles;
     }
 
+    //    public UserPrinciple(Long id, String name, String username, String password, String email,
+//                         int phoneNumber, String avatar, LocalDate joinDate,
+//                         Boolean status, Collection<? extends GrantedAuthority> roles) {
+//        this.id = id;
+//        this.name = name;
+//        this.username = username;
+//        this.password = password;
+//        this.email = email;
+//        this.phoneNumber = phoneNumber;
+//        this.avatar = avatar;
+//        this.joinDate = joinDate;
+//        this.status = status;
+//        this.roles = roles;
+//    }
+
     //Hàm build mục đích là build user ở trong request,lưu vào một vùng nhớ static
     public static UserPrinciple build(User user){
         //Convert từ set<> sang list<>(set<AppRole> sang List<GrantedAuthority> )
@@ -46,6 +61,7 @@ public class UserPrinciple implements UserDetails {
                 new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
         return new UserPrinciple(
                 user.getId(),
+                user.getName(),
                 user.getUsername(),
                 user.getPassword(),
                 user.getEmail(),
@@ -160,5 +176,13 @@ public class UserPrinciple implements UserDetails {
 
     public void setRoles(Collection<? extends GrantedAuthority> roles) {
         this.roles = roles;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

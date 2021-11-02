@@ -10,6 +10,7 @@ import java.util.Collection;
 public class JwtResponse {
     String token;
     private Long id;
+    private String name;
     private String type = "Bearer";
     private String email;
     private int phoneNumber;
@@ -21,12 +22,13 @@ public class JwtResponse {
     public JwtResponse() {
     }
 
-    public JwtResponse(String token, Long id,
+    public JwtResponse(String token, Long id, String name,
                        String email, int phoneNumber,String avatar,
                        LocalDate joinDate, Boolean status,
                        Collection<? extends GrantedAuthority> roles) {
         this.token = token;
         this.id = id;
+        this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.avatar = avatar;
@@ -89,6 +91,14 @@ public class JwtResponse {
 
     public void setJoinDate(LocalDate joinDate) {
         this.joinDate = joinDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Boolean getStatus() {
