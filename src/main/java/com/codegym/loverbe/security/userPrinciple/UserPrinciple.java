@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class UserPrinciple implements UserDetails {
     private static final long serialVersionUID =1L;
     private Long id;
-    private String name;
+//    private String name;
     private String username;
     @JsonIgnore
     private String password;
@@ -27,16 +27,14 @@ public class UserPrinciple implements UserDetails {
     private Boolean status;
     private Collection<? extends GrantedAuthority> roles;
 
-    public UserPrinciple(Long id, String name, String username, String password, String email,
-                         int phoneNumber, String address, String avatar, LocalDate joinDate,
+    public UserPrinciple(Long id, String username, String password, String email,
+                         int phoneNumber, String avatar, LocalDate joinDate,
                          Boolean status, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
-        this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.address = address;
         this.avatar = avatar;
         this.joinDate = joinDate;
         this.status = status;
@@ -50,12 +48,10 @@ public class UserPrinciple implements UserDetails {
                 new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
         return new UserPrinciple(
                 user.getId(),
-                user.getName(),
                 user.getUsername(),
                 user.getPassword(),
                 user.getEmail(),
                 user.getPhoneNumber(),
-                user.getAddress(),
                 user.getAvatar(),
                 user.getJoinDate(),
                 user.getStatus(),
@@ -111,13 +107,13 @@ public class UserPrinciple implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
+//    public String getName() {
+//        return name;
+//    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -143,13 +139,13 @@ public class UserPrinciple implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddress() {
-        return address;
-    }
+//    public String getAddress() {
+//        return address;
+//    }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+//    public void setAddress(String address) {
+//        this.address = address;
+//    }
 
     public String getAvatar() {
         return avatar;
