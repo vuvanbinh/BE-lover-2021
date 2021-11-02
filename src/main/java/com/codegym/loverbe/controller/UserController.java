@@ -59,10 +59,8 @@ public class UserController {
             return ResponseEntity.ok(new JwtResponse(
                     token
                     ,userPrinciple.getId()
-                    ,userPrinciple.getName()
                     , userPrinciple.getEmail()
                     , userPrinciple.getPhoneNumber()
-                    , userPrinciple.getAddress()
                     , userPrinciple.getAvatar()
                     , userPrinciple.getJoinDate()
                     ,userPrinciple.getStatus()
@@ -82,12 +80,10 @@ public class UserController {
         }
 
         User user = new User();
-        user.setName(signUpForm.getName());
         user.setUsername(signUpForm.getUsername());
         user.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
         user.setEmail(signUpForm.getEmail());
         user.setPhoneNumber(signUpForm.getPhoneNumber());
-        user.setAddress(signUpForm.getAddress());
         user.setAvatar(signUpForm.getAvatar());
         user.setJoinDate(signUpForm.getJoinDate());
         user.setStatus(signUpForm.getStatus());
