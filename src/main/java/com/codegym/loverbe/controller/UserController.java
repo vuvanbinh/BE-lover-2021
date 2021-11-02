@@ -16,6 +16,8 @@ import com.codegym.loverbe.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,6 +48,8 @@ public class UserController {
     JwtAuthTokenFilter jwtAuthTokenFilter;
     @Autowired
     UserDetailServiceImpl userDetailService;
+    @Autowired
+    JavaMailSender javaMailSender;
 
     @PostMapping("/signIn")
     public ResponseEntity<?> login(@RequestBody SignInForm signInForm) {
@@ -104,8 +108,11 @@ public class UserController {
                     roles.add(pMRole);
             }
         });
-        user.setRoles(roles);
-        userService.save(user);
+        SimpleMailMessage sendmail = new SimpleMailMessage();
+        sendmail.setTo(user.getEmail());
+        sendmail.setSubject("Bạn đã đăng ký tài khoản thành công!");
+        sendmail.setText("Bạn đã đăng ký tài khoản thành công");
+        javaMailSender.send(sendmail);
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
 
