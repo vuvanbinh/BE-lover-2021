@@ -22,7 +22,7 @@ public class JwtResponse {
     }
 
     public JwtResponse(String token, Long id,
-                       String email, int phoneNumber, String avatar,
+                       String email, int phoneNumber,String avatar,
                        LocalDate joinDate, Boolean status,
                        Collection<? extends GrantedAuthority> roles) {
         this.token = token;

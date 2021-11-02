@@ -15,13 +15,11 @@ import java.util.stream.Collectors;
 public class UserPrinciple implements UserDetails {
     private static final long serialVersionUID =1L;
     private Long id;
-//    private String name;
     private String username;
     @JsonIgnore
     private String password;
     private String email;
     private int phoneNumber;
-    private String address;
     private String avatar;
     private LocalDate joinDate;
     private Boolean status;
@@ -107,13 +105,6 @@ public class UserPrinciple implements UserDetails {
         this.id = id;
     }
 
-//    public String getName() {
-//        return name;
-//    }
-
-//    public void setName(String name) {
-//        this.name = name;
-//    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -138,14 +129,6 @@ public class UserPrinciple implements UserDetails {
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-//    public String getAddress() {
-//        return address;
-//    }
-
-//    public void setAddress(String address) {
-//        this.address = address;
-//    }
 
     public String getAvatar() {
         return avatar;
