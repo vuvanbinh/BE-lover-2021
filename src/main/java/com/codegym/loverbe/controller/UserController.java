@@ -6,6 +6,7 @@ import com.codegym.loverbe.dto.response.JwtResponse;
 import com.codegym.loverbe.dto.response.ResponseMessage;
 import com.codegym.loverbe.model.Role;
 import com.codegym.loverbe.model.RoleName;
+import com.codegym.loverbe.model.Services;
 import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.security.jwt.JwtAuthTokenFilter;
 import com.codegym.loverbe.security.jwt.JwtProvider;
@@ -113,5 +114,8 @@ public class UserController {
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
 
-
+    @GetMapping
+    public ResponseEntity<Iterable<User>> findAll(){
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    }
 }
