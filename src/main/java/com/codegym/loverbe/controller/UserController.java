@@ -116,5 +116,27 @@ public class UserController {
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(@Valid @RequestBody User newUser){
+        User user1 = userDetailService.getCurrentUser();
+        user1.setName(newUser.getName());
+        user1.setUsername(newUser.getUsername());
+        user1.setPassword(newUser.getPassword());
+        user1.setEmail(newUser.getEmail());
+        user1.setPhoneNumber(newUser.getPhoneNumber());
+        user1.setAddress(newUser.getAddress());
+        user1.setAvatar(newUser.getAvatar());
+        user1.setYearOfBirth(newUser.getYearOfBirth());
+        user1.setSex(newUser.getSex());
+        user1.setCountry(newUser.getCountry());
+        user1.setCity(newUser.getCity());
+        user1.setHeight(newUser.getHeight());
+        user1.setWeight(newUser.getWeight());
+        user1.setInterests(newUser.getInterests());
+        user1.setDescription(newUser.getDescription());
+        user1.setLinkFB(newUser.getLinkFB());
+        userService.save(user1);
+        return new ResponseEntity<>(new ResponseMessage("Update Account Success"),HttpStatus.OK);
+    }
 
 }
