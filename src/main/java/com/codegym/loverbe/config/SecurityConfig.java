@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and().csrf().disable()
                 .authorizeRequests().antMatchers("/auth/signIn","/auth/signUp").permitAll()
 //                .antMatchers("/category/create").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(customAccessDeniedHandler())
                 .authenticationEntryPoint(restAuthenticationEntryPoint())
