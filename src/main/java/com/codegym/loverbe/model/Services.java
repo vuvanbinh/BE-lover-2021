@@ -15,5 +15,4 @@ public class Services {
     private int price;
     @ManyToOne
     private User user;
-
 }

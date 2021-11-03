@@ -14,8 +14,11 @@ import com.codegym.loverbe.security.userPrinciple.UserPrinciple;
 import com.codegym.loverbe.service.role.IRoleService;
 import com.codegym.loverbe.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,6 +49,10 @@ public class AuthController {
     JwtAuthTokenFilter jwtAuthTokenFilter;
     @Autowired
     UserDetailServiceImpl userDetailService;
+    @Autowired
+    JavaMailSender javaMailSender;
+
+
 
     @PostMapping("/signIn")
     public ResponseEntity<?> login(@RequestBody SignInForm signInForm) {
@@ -58,13 +65,13 @@ public class AuthController {
             UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
             return ResponseEntity.ok(new JwtResponse(
                     token
-                    ,userPrinciple.getId()
-                    , userPrinciple.getName()
+                    , userPrinciple.getId()
+                    , userPrinciple.getUsername()
                     , userPrinciple.getEmail()
                     , userPrinciple.getPhoneNumber()
                     , userPrinciple.getAvatar()
                     , userPrinciple.getJoinDate()
-                    ,userPrinciple.getStatus()
+                    , userPrinciple.getStatus()
                     , userPrinciple.getAuthorities()));
         }catch (Exception e){
             return new ResponseEntity<>(new ResponseMessage("no"), HttpStatus.OK);
@@ -85,7 +92,7 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
         user.setEmail(signUpForm.getEmail());
         user.setPhoneNumber(signUpForm.getPhoneNumber());
-        user.setAvatar(signUpForm.getAvatar());
+        user.setAvatar("https://firebasestorage.googleapis.com/v0/b/vubinh-84277.appspot.com/o/download.png?alt=media&token=3dbee61a-2e0e-4e66-9316-f7ec88b90bef");
         user.setJoinDate(signUpForm.getJoinDate());
         user.setStatus(signUpForm.getStatus());
         Set<String> strRole = signUpForm.getRoles();
@@ -107,6 +114,11 @@ public class AuthController {
         });
         user.setRoles(roles);
         userService.save(user);
+        SimpleMailMessage sendmail = new SimpleMailMessage();
+        sendmail.setTo(user.getEmail());
+        sendmail.setSubject("Bạn đã đăng ký tài khoản thành công!");
+        sendmail.setText("Bạn đã đăng ký tài khoản thành công");
+        javaMailSender.send(sendmail);
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
 

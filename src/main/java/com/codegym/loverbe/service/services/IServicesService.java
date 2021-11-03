@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface IServicesService extends IService<Services> {
     Iterable<Services>findAllByUser(User user);
+
 }
