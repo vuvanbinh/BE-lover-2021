@@ -22,7 +22,7 @@ public class User {
     private int phoneNumber;
     private String avatar;
     private LocalDate joinDate;
-    private Boolean status;
+    private Boolean isBlock;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 

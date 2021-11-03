@@ -14,7 +14,6 @@ import com.codegym.loverbe.security.userPrinciple.UserPrinciple;
 import com.codegym.loverbe.service.role.IRoleService;
 import com.codegym.loverbe.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -71,7 +70,7 @@ public class AuthController {
                     , userPrinciple.getPhoneNumber()
                     , userPrinciple.getAvatar()
                     , userPrinciple.getJoinDate()
-                    , userPrinciple.getStatus()
+                    , userPrinciple.getIsBlock()
                     , userPrinciple.getAuthorities()));
         }catch (Exception e){
             return new ResponseEntity<>(new ResponseMessage("no"), HttpStatus.OK);
@@ -94,7 +93,7 @@ public class AuthController {
         user.setPhoneNumber(signUpForm.getPhoneNumber());
         user.setAvatar("https://firebasestorage.googleapis.com/v0/b/vubinh-84277.appspot.com/o/download.png?alt=media&token=3dbee61a-2e0e-4e66-9316-f7ec88b90bef");
         user.setJoinDate(signUpForm.getJoinDate());
-        user.setStatus(signUpForm.getStatus());
+        user.setIsBlock(signUpForm.getIsBlock());
         Set<String> strRole = signUpForm.getRoles();
         Set<Role> roles = new HashSet<>();
         strRole.forEach(role -> {

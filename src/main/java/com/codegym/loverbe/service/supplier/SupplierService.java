@@ -1,6 +1,7 @@
 package com.codegym.loverbe.service.supplier;
 
 import com.codegym.loverbe.model.Supplier;
+import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.repository.ISupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,24 @@ public class SupplierService implements ISupplierService{
     public List<Supplier> top6() {
         return supplierRepository.top6();
     }
+
+    @Override
+    public Optional<Supplier> findByUser(User user) {
+        return supplierRepository.findByUser(user);
+    }
+
+    public Supplier findByUserId(Long id){
+        List<Supplier> supplierList = findAll();
+        Supplier supplier1=null;
+        for (Supplier s: supplierList
+             ) {
+            if (s.getUser().getId()==id){
+                supplier1=s;
+            }
+        }
+        return supplier1;
+    }
+
 
     @Override
     public List<Supplier> findAll() {

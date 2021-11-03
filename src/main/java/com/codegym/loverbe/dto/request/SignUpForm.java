@@ -12,6 +12,6 @@ public class SignUpForm {
     private int phoneNumber;
     private String avatar;
     private LocalDate joinDate;
-    private Boolean status;
+    private Boolean isBlock;
     private Set<String> roles;
 }
