@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,7 +22,7 @@ public class ServicesService implements IServicesService{
     }
 
     @Override
-    public Iterable<Services> findAll() {
+    public List<Services> findAll() {
         return servicesRepository.findAll();
     }
 
