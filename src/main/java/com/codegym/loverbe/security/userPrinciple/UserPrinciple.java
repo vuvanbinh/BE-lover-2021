@@ -22,10 +22,10 @@ public class UserPrinciple implements UserDetails {
     private int phoneNumber;
     private String avatar;
     private LocalDate joinDate;
-    private Boolean status;
+    private Boolean isBlock;
     private Collection<? extends GrantedAuthority> roles;
 
-    public UserPrinciple(Long id, String username, String password, String email, int phoneNumber, String avatar, LocalDate joinDate, Boolean status, Collection<? extends GrantedAuthority> roles) {
+    public UserPrinciple(Long id, String username, String password, String email, int phoneNumber, String avatar, LocalDate joinDate, Boolean isBlock, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -33,7 +33,7 @@ public class UserPrinciple implements UserDetails {
         this.phoneNumber = phoneNumber;
         this.avatar = avatar;
         this.joinDate = joinDate;
-        this.status = status;
+        this.isBlock = isBlock;
         this.roles = roles;
     }
 
@@ -50,7 +50,7 @@ public class UserPrinciple implements UserDetails {
                 user.getPhoneNumber(),
                 user.getAvatar(),
                 user.getJoinDate(),
-                user.getStatus(),
+                user.getIsBlock(),
                 authorities
         );
     }
@@ -92,8 +92,13 @@ public class UserPrinciple implements UserDetails {
         return true;
     }
 
+    public Boolean getIsBlock() {
+        return isBlock;
+    }
 
-
+    public void setIsBlock(Boolean block) {
+        isBlock = block;
+    }
 
     public Long getId() {
         return id;
@@ -144,13 +149,7 @@ public class UserPrinciple implements UserDetails {
         this.joinDate = joinDate;
     }
 
-    public Boolean getStatus() {
-        return status;
-    }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
 
     public Collection<? extends GrantedAuthority> getRoles() {
         return roles;
