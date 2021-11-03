@@ -5,6 +5,10 @@ import com.codegym.loverbe.model.Supplier;
 import com.codegym.loverbe.security.userPrinciple.UserDetailServiceImpl;
 import com.codegym.loverbe.service.supplier.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +33,15 @@ public class SupplierController {
         supplier.setActiveStatus(true);
         supplierService.save(supplier);
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
+    }
+    @GetMapping
+    public ResponseEntity<?>pageFindAll(@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable){
+        Page<Supplier> categoryPage = supplierService.pageFindAll(pageable);
+        if (categoryPage.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(categoryPage,HttpStatus.OK);
+        }
     }
 
     @GetMapping("/top6")
