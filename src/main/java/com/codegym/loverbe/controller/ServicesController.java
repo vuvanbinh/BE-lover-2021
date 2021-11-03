@@ -55,6 +55,5 @@ public class ServicesController {
     @GetMapping("findAllByUser/{id}")
     public ResponseEntity<Iterable<Services>>findById(@PathVariable("id")User user){
         return new ResponseEntity<>(servicesService.findAllByUser(user),HttpStatus.OK);
-
     }
 }

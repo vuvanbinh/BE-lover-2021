@@ -4,7 +4,6 @@ import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.service.IService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

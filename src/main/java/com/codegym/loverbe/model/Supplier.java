@@ -4,11 +4,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
-
-@Entity
 @Data
-@Table(name = "profiles")
-public class Profile {
+@Entity
+@Table(name = "supplier")
+public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,4 +28,5 @@ public class Profile {
     private boolean activeStatus;
     @OneToOne
     private User user;
+
 }
