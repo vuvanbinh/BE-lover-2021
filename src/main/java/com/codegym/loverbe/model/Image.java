@@ -1,5 +1,6 @@
 package com.codegym.loverbe.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,8 +13,8 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String img;
+    @JsonIgnore
     @ManyToOne
-    private User user;
-
+    private Supplier supplier;
 
 }
