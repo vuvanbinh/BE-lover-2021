@@ -13,6 +13,7 @@ public class Image {
     private Long id;
     private String img;
     @ManyToOne
-    private Profile profile;
+    private User user;
+
 
 }
