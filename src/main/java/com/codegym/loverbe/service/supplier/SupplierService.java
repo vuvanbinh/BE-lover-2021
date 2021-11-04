@@ -44,8 +44,29 @@ public class SupplierService implements ISupplierService{
     }
 
     @Override
-    public Optional<Supplier> findByNameContaining(String name) {
+    public Iterable<Supplier> findByNameContaining(String name) {
         return supplierRepository.findByNameContaining(name);
+    }
+
+    @Override
+    public List<Supplier> yearOfBirth1825() {
+        return null;
+    }
+
+    @Override
+    public Iterable<Supplier> findByCity(String city) {
+        return supplierRepository.findByCity(city);
+    }
+
+
+    @Override
+    public Iterable<Supplier> findBySex(String sex) {
+        return supplierRepository.findBySex(sex);
+    }
+
+    @Override
+    public List<Supplier> minView() {
+        return supplierRepository.minView();
     }
 
 

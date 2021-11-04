@@ -120,11 +120,62 @@ public class SupplierController {
     }
 
     @GetMapping("/seachName/{name}")
-    public ResponseEntity<Supplier> findByName(@PathVariable String name) {
-        Optional<Supplier> supplierOptional = supplierService.findByNameContaining(name);
-        if (!supplierOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(supplierOptional.get(), HttpStatus.OK);
+    public ResponseEntity<Iterable<Supplier>> findByName(@PathVariable String name, String is_confirm) {
+        List<Supplier> supplierOptional = (List<Supplier>)supplierService.findByNameContaining(name);
+        List<Supplier> listnameuser = new ArrayList<>();
+            for(int i=0; i<supplierOptional.size();i++){
+                if(!supplierOptional.equals(name) && !supplierOptional.equals(is_confirm)){
+                        listnameuser.add(supplierOptional.get(i));
+                }
+            }
+        return new ResponseEntity<>(listnameuser, HttpStatus.OK);
     }
+
+    @GetMapping("/seachCity/{city}")
+    public ResponseEntity<Iterable<Supplier>> findByAddress(@PathVariable String city) {
+        List<Supplier> supplierOptional1 = (List<Supplier>)supplierService.findByCity(city);
+        List<Supplier> city1 = new ArrayList<>();
+        for(int i=0; i<supplierOptional1.size();i++){
+            if(!supplierOptional1.equals(city) ){
+                city1.add(supplierOptional1.get(i));
+            }
+        }
+        return new ResponseEntity<>(city1, HttpStatus.OK);
+    }
+
+    @GetMapping("/seachSex/{sex}")
+    public ResponseEntity<Iterable<Supplier>> findBySex(@PathVariable String sex ){
+        List<Supplier> supplierOptional1 = (List<Supplier>)supplierService.findBySex(sex);
+        List<Supplier> sex1 = new ArrayList<>();
+        for(int i=0; i<supplierOptional1.size();i++){
+            if(!supplierOptional1.equals(sex)  ){
+                sex1.add(supplierOptional1.get(i));
+            }
+        }
+        return new ResponseEntity<>(sex1, HttpStatus.OK);
+    }
+
+    @GetMapping("/minview")
+    public ResponseEntity<List<Supplier>> findMinView() {
+        List<Supplier> supplierList = supplierService.top6();
+        List<Supplier> listtop = new ArrayList<>();
+        List<Supplier> listtop1 = new ArrayList<>();
+
+        for (int i = 0; i < supplierList.size(); i++) {
+            listtop.add(supplierList.get(i));
+        }
+        listtop1.add(listtop.get(listtop.size()-1));
+        return new ResponseEntity<>(listtop1, HttpStatus.OK);
+    }
+
+    @GetMapping("/maxview")
+    public ResponseEntity<List<Supplier>> findMaxView() {
+        List<Supplier> supplierList = supplierService.top6();
+        List<Supplier> listtop = new ArrayList<>();
+        for (int i = 0; i < 1; i++) {
+            listtop.add(supplierList.get(i));
+        }
+        return new ResponseEntity<>(listtop, HttpStatus.OK);
+    }
+
 }

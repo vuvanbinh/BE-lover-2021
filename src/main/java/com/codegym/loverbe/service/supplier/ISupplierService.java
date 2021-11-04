@@ -13,6 +13,10 @@ public interface ISupplierService extends IService<Supplier>{
     List<Supplier> top6();
     Optional<Supplier>findByUser(User user);
     Supplier findByUserId(Long id);
-    Optional<Supplier> findByNameContaining(String name);
+    Iterable<Supplier> findByNameContaining(String name);
+    List<Supplier> yearOfBirth1825();
+    Iterable<Supplier> findByCity(String city);
+    Iterable<Supplier> findBySex(String sex);
+    List<Supplier> minView();
 
 }
