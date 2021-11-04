@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface ISupplierRepository extends JpaRepository<Supplier,Long> {
     @Query(" SELECT c FROM Supplier c ORDER BY c.count DESC")
     List<Supplier> top6();
-
     Optional<Supplier>findByUser(User user);
+    Optional<Supplier> findByNameContaining(String name);
 
 }

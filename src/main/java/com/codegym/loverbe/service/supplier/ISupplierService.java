@@ -13,4 +13,6 @@ public interface ISupplierService extends IService<Supplier>{
     List<Supplier> top6();
     Optional<Supplier>findByUser(User user);
     Supplier findByUserId(Long id);
+    Optional<Supplier> findByNameContaining(String name);
+
 }

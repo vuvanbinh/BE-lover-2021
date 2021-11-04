@@ -119,6 +119,12 @@ public class SupplierController {
         return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
     }
 
-
-
+    @GetMapping("/seachName/{name}")
+    public ResponseEntity<Supplier> findByName(@PathVariable String name) {
+        Optional<Supplier> supplierOptional = supplierService.findByNameContaining(name);
+        if (!supplierOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(supplierOptional.get(), HttpStatus.OK);
+    }
 }

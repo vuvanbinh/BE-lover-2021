@@ -43,6 +43,11 @@ public class SupplierService implements ISupplierService{
         return supplier1;
     }
 
+    @Override
+    public Optional<Supplier> findByNameContaining(String name) {
+        return supplierRepository.findByNameContaining(name);
+    }
+
 
     @Override
     public List<Supplier> findAll() {
