@@ -118,7 +118,19 @@ public class SupplierController {
         supplierService.save(supplier);
         return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
     }
-
-
+//Viết kích hoạt tài khoản ở trạng thái tạm dừng hoặc sẵn sàng dịch vụ
+   @GetMapping("/changeActive")
+    public ResponseEntity<?> changeActive(@RequestBody Supplier supplier){
+        supplier.setUser(userDetailService.getCurrentUser());
+        if (supplier.isConfirm() == true){
+            if(supplier.isActive() == true){
+                return new ResponseEntity<>(new ResponseMessage("Tài khoản đang sẵn sàng hoạt động"),HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(new ResponseMessage("Tài khoản đang tạm khoá"), HttpStatus.OK);
+            }
+        }else {
+            return new ResponseEntity<>(new ResponseMessage("Bạn không phải là người cung cấp dịch vụ"), HttpStatus.OK);
+        }
+   }
 
 }
