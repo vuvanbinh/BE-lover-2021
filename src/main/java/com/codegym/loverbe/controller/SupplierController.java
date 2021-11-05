@@ -35,7 +35,7 @@ public class SupplierController {
     IImageService imageService;
 
     @PostMapping()
-    public ResponseEntity<?>create(@RequestBody SupplierForm supplierForm){
+    public ResponseEntity<?> create(@RequestBody SupplierForm supplierForm) {
         //chuyển tất cả dữ liệu từ supplierFrom sang supplier rồi save lại
         Supplier supplier = new Supplier();
         supplier.setName(supplierForm.getName());
@@ -57,41 +57,40 @@ public class SupplierController {
         // duyệt for save lần lượt vào database của bảng image
         List<String> images = supplierForm.getImages();
         Supplier supplier1 = supplierService.findByUserId(user.getId());
-        images.forEach((img)->{
+        images.forEach((img) -> {
             Image image = new Image();
             image.setImg(img);
             image.setSupplier(supplier1);
             imageService.save(image);
         });
         //Lấy ra List<image> vừa lưu vào bằng supplier của nó, rồi setImages của supplier của nó bằng với list<Image>
-        List<Image> imageList=(List)imageService.findAllBySupplier(supplier1);
+        List<Image> imageList = (List) imageService.findAllBySupplier(supplier1);
         supplier1.setImages(imageList);
         supplierService.save(supplier1);
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<?>pageFindAll(@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable){
+    public ResponseEntity<?> pageFindAll(@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
 
         Page<Supplier> categoryPage = supplierService.pageFindAll(pageable);
-        if (categoryPage.isEmpty()){
+        if (categoryPage.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }else {
-            return new ResponseEntity<>(categoryPage,HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(categoryPage, HttpStatus.OK);
         }
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?>findById(@PathVariable("id")Supplier supplier){
-        return new ResponseEntity<>(supplier,HttpStatus.OK);
+    public ResponseEntity<?> findById(@PathVariable("id") Supplier supplier) {
+        return new ResponseEntity<>(supplier, HttpStatus.OK);
     }
 
     @GetMapping("findByUser")
-    public ResponseEntity<?>findByUser(){
+    public ResponseEntity<?> findByUser() {
         User user = userDetailService.getCurrentUser();
-        return new ResponseEntity<>(supplierService.findByUserId(user.getId()),HttpStatus.OK);
+        return new ResponseEntity<>(supplierService.findByUserId(user.getId()), HttpStatus.OK);
     }
-
 
 
     @GetMapping("/top6")
@@ -113,30 +112,30 @@ public class SupplierController {
         }
         Supplier supplier = userOptional.get();
         Integer count = supplier.getCount();
-        supplier.setCount(count+1);
+        supplier.setCount(count + 1);
         supplier.setId(id);
         supplierService.save(supplier);
         return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
     }
 
     @GetMapping("/seachName/{name}")
-    public ResponseEntity<Iterable<Supplier>> findByName(@PathVariable String name, String is_confirm) {
-        List<Supplier> supplierOptional = (List<Supplier>)supplierService.findByNameContaining(name);
+    public ResponseEntity<Iterable<Supplier>> findByName(@PathVariable String name) {
+        List<Supplier> supplierOptional = (List<Supplier>) supplierService.findByName(name);
         List<Supplier> listnameuser = new ArrayList<>();
-            for(int i=0; i<supplierOptional.size();i++){
-                if(!supplierOptional.equals(name) && !supplierOptional.equals(is_confirm)){
-                        listnameuser.add(supplierOptional.get(i));
-                }
+        for (int i = 0; i < supplierOptional.size(); i++) {
+            if (!supplierOptional.equals(name)) {
+                listnameuser.add(supplierOptional.get(i));
             }
+        }
         return new ResponseEntity<>(listnameuser, HttpStatus.OK);
     }
 
     @GetMapping("/seachCity/{city}")
     public ResponseEntity<Iterable<Supplier>> findByAddress(@PathVariable String city) {
-        List<Supplier> supplierOptional1 = (List<Supplier>)supplierService.findByCity(city);
+        List<Supplier> supplierOptional1 = (List<Supplier>) supplierService.findByCity(city);
         List<Supplier> city1 = new ArrayList<>();
-        for(int i=0; i<supplierOptional1.size();i++){
-            if(!supplierOptional1.equals(city) ){
+        for (int i = 0; i < supplierOptional1.size(); i++) {
+            if (!supplierOptional1.equals(city)) {
                 city1.add(supplierOptional1.get(i));
             }
         }
@@ -144,11 +143,11 @@ public class SupplierController {
     }
 
     @GetMapping("/seachSex/{sex}")
-    public ResponseEntity<Iterable<Supplier>> findBySex(@PathVariable String sex ){
-        List<Supplier> supplierOptional1 = (List<Supplier>)supplierService.findBySex(sex);
+    public ResponseEntity<Iterable<Supplier>> findBySex(@PathVariable String sex) {
+        List<Supplier> supplierOptional1 = (List<Supplier>) supplierService.findBySex(sex);
         List<Supplier> sex1 = new ArrayList<>();
-        for(int i=0; i<supplierOptional1.size();i++){
-            if(!supplierOptional1.equals(sex)  ){
+        for (int i = 0; i < supplierOptional1.size(); i++) {
+            if (!supplierOptional1.equals(sex)) {
                 sex1.add(supplierOptional1.get(i));
             }
         }
@@ -164,7 +163,7 @@ public class SupplierController {
         for (int i = 0; i < supplierList.size(); i++) {
             listtop.add(supplierList.get(i));
         }
-        listtop1.add(listtop.get(listtop.size()-1));
+        listtop1.add(listtop.get(listtop.size() - 1));
         return new ResponseEntity<>(listtop1, HttpStatus.OK);
     }
 
@@ -177,5 +176,24 @@ public class SupplierController {
         }
         return new ResponseEntity<>(listtop, HttpStatus.OK);
     }
+
+    @GetMapping("/age18-23")
+    public ResponseEntity<Page<Supplier>> findAgeTo23(Pageable pageable) {
+        Page<Supplier> supplierList = supplierService.yearOfBirth1823(pageable);
+        return new ResponseEntity<>(supplierList, HttpStatus.OK);
+    }
+
+    @GetMapping("/age23-27")
+    public ResponseEntity<List<Supplier>> findAgeTo27() {
+        List<Supplier> supplierList = supplierService.yearOfBirth2327();
+        return new ResponseEntity<>(supplierList, HttpStatus.OK);
+    }
+
+    @GetMapping("/age27-31")
+    public ResponseEntity<List<Supplier>> findAgeTo31() {
+        List<Supplier> supplierList = supplierService.yearOfBirth2731();
+        return new ResponseEntity<>(supplierList, HttpStatus.OK);
+    }
+
 
 }

@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class SupplierService implements ISupplierService{
+
     @Autowired
     ISupplierRepository supplierRepository;
 
@@ -44,14 +45,25 @@ public class SupplierService implements ISupplierService{
     }
 
     @Override
-    public Iterable<Supplier> findByNameContaining(String name) {
-        return supplierRepository.findByNameContaining(name);
+    public Iterable<Supplier> findByName(String name) {
+        return supplierRepository.findByName(name);
     }
 
     @Override
-    public List<Supplier> yearOfBirth1825() {
-        return null;
+    public Page<Supplier> yearOfBirth1823(Pageable pageable) {
+        return supplierRepository.yearOfBirth1823(pageable);
     }
+
+    @Override
+    public List<Supplier> yearOfBirth2327() {
+        return supplierRepository.yearOfBirth2327();
+    }
+
+    @Override
+    public List<Supplier> yearOfBirth2731() {
+        return supplierRepository.yearOfBirth2731();
+    }
+
 
     @Override
     public Iterable<Supplier> findByCity(String city) {
@@ -66,8 +78,9 @@ public class SupplierService implements ISupplierService{
 
     @Override
     public List<Supplier> minView() {
-        return supplierRepository.minView();
+        return supplierRepository.top6();
     }
+
 
 
     @Override
@@ -93,4 +106,5 @@ public class SupplierService implements ISupplierService{
     public void delete(Supplier supplier){
         supplierRepository.delete(supplier);
     }
+
 }

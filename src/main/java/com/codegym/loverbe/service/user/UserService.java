@@ -1,5 +1,6 @@
 package com.codegym.loverbe.service.user;
 
+import com.codegym.loverbe.model.Supplier;
 import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,7 @@ public class UserService implements IUserService{
     public Boolean existsByEmail(String email) {
         return userRepository.existsByUsername(email);
     }
+
+
 
 }
