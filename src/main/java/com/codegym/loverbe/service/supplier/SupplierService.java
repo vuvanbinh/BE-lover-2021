@@ -79,4 +79,14 @@ public class SupplierService implements ISupplierService{
         return supplierRepository.findAllByConfirm(isConfirm, pageable);
     }
 
+    @Override
+    public Page<Supplier> findSupplierBySex(String sex,Pageable pageable) {
+        return supplierRepository.findAllBySex(sex, pageable);
+    }
+
+    @Override
+    public Page<Supplier> findUserBySex(String sex, Pageable pageable) {
+        return supplierRepository.findUserBySex(sex,pageable);
+    }
+
 }
