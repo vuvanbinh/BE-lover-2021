@@ -148,5 +148,16 @@ public class SupplierController {
     }
 
 
-
+    @GetMapping("/vip/{id}")
+    public ResponseEntity<Supplier> setVip(@PathVariable Long id) {
+        Optional<Supplier> userOptional = supplierService.findById(id);
+        if (!userOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Supplier supplier = userOptional.get();
+        supplier.setVip(true);
+        supplier.setId(id);
+        supplierService.save(supplier);
+        return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
+    }
 }

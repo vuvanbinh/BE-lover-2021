@@ -30,6 +30,7 @@ public class Supplier {
     private int count;
     private boolean isActive;
     private boolean isConfirm;
+    private boolean isVip;
     @OneToOne
     private User user;
 }
