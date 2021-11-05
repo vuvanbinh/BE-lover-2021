@@ -25,6 +25,6 @@ public interface ISupplierRepository extends JpaRepository<Supplier,Long> {
     @Query(value = "SELECT s FROM Supplier s WHERE s.sex='nam'")
     Page<Supplier> findAllBySex(String sex,Pageable pageable);
 
-    @Query(value = "SELECT s FROM Supplier s WHERE s.sex='nu'")
+    @Query(value = "SELECT s FROM Supplier s WHERE s.sex='nữ'")
     Page<Supplier> findUserBySex(String sex,Pageable pageable);
 }
