@@ -40,10 +40,10 @@ public class ServicesService implements IServicesService{
     public void remove(Long id) {
         servicesRepository.deleteById(id);
     }
-
-    @Override
-    public Iterable<Services> findAllByUser(User user) {
-        return servicesRepository.findAllByUser(user);
-    }
+//
+//    @Override
+//    public Iterable<Services> findAllByUser(User user) {
+//        return servicesRepository.findAllByUser(user);
+//    }
 
 }

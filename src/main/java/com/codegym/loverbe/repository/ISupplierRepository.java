@@ -15,5 +15,4 @@ public interface ISupplierRepository extends JpaRepository<Supplier,Long> {
     List<Supplier> top6();
 
     Optional<Supplier>findByUser(User user);
-
 }

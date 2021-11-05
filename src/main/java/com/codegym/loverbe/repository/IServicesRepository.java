@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IServicesRepository extends JpaRepository<Services,Long> {
-    Iterable<Services>findAllByUser(User user);
+//    Iterable<Services>findAllByUser(User user);
 }

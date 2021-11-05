@@ -118,7 +118,15 @@ public class SupplierController {
         supplierService.save(supplier);
         return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
     }
-
-
+//    @GetMapping("/find12")
+//    public ResponseEntity<Iterable<Supplier>> findAll() {
+//        Iterable<Supplier> supplierIterable = supplierService.findAll();
+//        Iterable<Supplier> suppliers=new ArrayList<>();
+//        for (int i = 0; i <= 12; i++) {
+//            if (suppliers.)
+//        }
+//        return new ResponseEntity<>(supplierIterable, HttpStatus.OK);
+//
+//    }
 
 }

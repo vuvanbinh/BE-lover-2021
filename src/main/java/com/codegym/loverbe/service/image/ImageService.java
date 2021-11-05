@@ -37,7 +37,6 @@ public class ImageService implements IImageService{
 
     @Override
     public void remove(Long id) {
-
     }
 
     @Override

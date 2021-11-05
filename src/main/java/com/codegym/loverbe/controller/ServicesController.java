@@ -1,9 +1,6 @@
 package com.codegym.loverbe.controller;
 
-import com.codegym.loverbe.dto.response.ResponseMessage;
 import com.codegym.loverbe.model.Services;
-import com.codegym.loverbe.model.User;
-import com.codegym.loverbe.security.userPrinciple.UserDetailServiceImpl;
 import com.codegym.loverbe.service.services.IServicesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,42 +16,45 @@ public class ServicesController {
 
     @Autowired
     private IServicesService servicesService;
-    @Autowired
-    UserDetailServiceImpl userDetailService;
-
     @GetMapping
-    public ResponseEntity<Iterable<Services>> findAll(){
-        return new ResponseEntity<>(servicesService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Iterable<Services>> findAll() {
+        Iterable<Services> servicesIterable = servicesService.findAll();
+        return new ResponseEntity<>(servicesIterable, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Services services){
-        services.setUser(userDetailService.getCurrentUser());
+    public ResponseEntity<Services> create(@RequestBody Services services) {
         servicesService.save(services);
-        return new ResponseEntity<>(new ResponseMessage("Create success!"),HttpStatus.OK);
+        return new ResponseEntity<>( HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable("id")Services services,@RequestBody Services newServices){
-        newServices.setId(services.getId());
-        servicesService.save(newServices);
-        return new ResponseEntity<>(new ResponseMessage("Update success!"),HttpStatus.OK);
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Services> deleteById(@PathVariable Long id) {
+        Optional<Services> servicesOptional = servicesService.findById(id);
+        if (!servicesOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         servicesService.remove(id);
-        return new ResponseEntity<>(new ResponseMessage("Delete success!"),HttpStatus.OK);
+        return new ResponseEntity<>(servicesOptional.get(), HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Optional<Services>>findById(@PathVariable("id") Optional<Services> services){
-        return new ResponseEntity<>(services,HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Services> edit(@PathVariable Long id, @RequestBody Services services) {
+        Optional<Services> servicesOptional = servicesService.findById(id);
+        if (!servicesOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        services.setId(id);
+        servicesService.save(services);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
-    @GetMapping("findAllByUser/{id}")
-    public ResponseEntity<Iterable<Services>>findById(@PathVariable("id")User user){
-        return new ResponseEntity<>(servicesService.findAllByUser(user),HttpStatus.OK);
-
+    @GetMapping("/{id}")
+    public ResponseEntity<Services> findById(@PathVariable Long id) {
+        Optional<Services> servicesOptional = servicesService.findById(id);
+        if (!servicesOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(servicesOptional.get(), HttpStatus.OK);
     }
 }
