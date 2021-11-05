@@ -1,5 +1,6 @@
 package com.codegym.loverbe.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class Services {
     private String name;
     private String serviceType;
     private int price;
+    @JsonIgnore
     @ManyToOne
     private User user;
 }

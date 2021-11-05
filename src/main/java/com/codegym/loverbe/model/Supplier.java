@@ -19,6 +19,8 @@ public class Supplier {
     private String country;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Image> images;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Services> services;
     private int height;
     private int weight;
     private String interests;
