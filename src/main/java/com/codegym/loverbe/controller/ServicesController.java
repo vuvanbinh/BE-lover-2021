@@ -2,14 +2,17 @@ package com.codegym.loverbe.controller;
 
 import com.codegym.loverbe.dto.response.ResponseMessage;
 import com.codegym.loverbe.model.Services;
+import com.codegym.loverbe.model.Supplier;
 import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.security.userPrinciple.UserDetailServiceImpl;
 import com.codegym.loverbe.service.services.IServicesService;
+import com.codegym.loverbe.service.supplier.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +24,8 @@ public class ServicesController {
     private IServicesService servicesService;
     @Autowired
     UserDetailServiceImpl userDetailService;
+    @Autowired
+    ISupplierService supplierService;
 
     @GetMapping
     public ResponseEntity<Iterable<Services>> findAll(){
@@ -29,8 +34,16 @@ public class ServicesController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Services services){
-        services.setUser(userDetailService.getCurrentUser());
-        servicesService.save(services);
+        User user = userDetailService.getCurrentUser();
+        services.setUser(user);
+        Services services1= servicesService.save(services);
+        Supplier supplier= supplierService.findByUserId(user.getId());
+        if (supplier!=null){
+            List<Services> servicesList= supplier.getServices();
+            servicesList.add(services1);
+            supplier.setServices(servicesList);
+            supplierService.save(supplier);
+        }
         return new ResponseEntity<>(new ResponseMessage("Create success!"),HttpStatus.OK);
     }
 
@@ -52,9 +65,9 @@ public class ServicesController {
         return new ResponseEntity<>(services,HttpStatus.OK);
     }
 
-    @GetMapping("findAllByUser/{id}")
-    public ResponseEntity<Iterable<Services>>findById(@PathVariable("id")User user){
-        return new ResponseEntity<>(servicesService.findAllByUser(user),HttpStatus.OK);
-
+    @GetMapping("findAllByUser")
+    public ResponseEntity<Iterable<Services>>findById(){
+        return new ResponseEntity<>(servicesService.findAllByUser(userDetailService.getCurrentUser()),HttpStatus.OK);
     }
+
 }

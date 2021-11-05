@@ -21,6 +21,7 @@ public class SupplierService implements ISupplierService{
         return supplierRepository.findAll(pageable);
     }
 
+
     @Override
     public List<Supplier> top6() {
         return supplierRepository.top6();
@@ -44,6 +45,7 @@ public class SupplierService implements ISupplierService{
     }
 
 
+
     @Override
     public List<Supplier> findAll() {
         return supplierRepository.findAll();
@@ -55,8 +57,8 @@ public class SupplierService implements ISupplierService{
     }
 
     @Override
-    public void save(Supplier supplier) {
-        supplierRepository.save(supplier);
+    public Supplier save(Supplier supplier) {
+       return supplierRepository.save(supplier);
     }
 
     @Override
@@ -67,4 +69,14 @@ public class SupplierService implements ISupplierService{
     public void delete(Supplier supplier){
         supplierRepository.delete(supplier);
     }
+
+
+
+
+
+    @Override
+    public Page<Supplier> findAllByConfirm(Boolean isConfirm, Pageable pageable) {
+        return supplierRepository.findAllByConfirm(isConfirm, pageable);
+    }
+
 }
