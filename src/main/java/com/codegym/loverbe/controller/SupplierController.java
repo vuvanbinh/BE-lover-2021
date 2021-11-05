@@ -3,10 +3,12 @@ package com.codegym.loverbe.controller;
 import com.codegym.loverbe.dto.request.SupplierForm;
 import com.codegym.loverbe.dto.response.ResponseMessage;
 import com.codegym.loverbe.model.Image;
+import com.codegym.loverbe.model.Services;
 import com.codegym.loverbe.model.Supplier;
 import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.security.userPrinciple.UserDetailServiceImpl;
 import com.codegym.loverbe.service.image.IImageService;
+import com.codegym.loverbe.service.services.IServicesService;
 import com.codegym.loverbe.service.supplier.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +29,8 @@ import java.util.Optional;
 public class SupplierController {
     @Autowired
     UserDetailServiceImpl userDetailService;
-
+    @Autowired
+    IServicesService servicesService;
     @Autowired
     ISupplierService supplierService;
 
@@ -49,6 +52,9 @@ public class SupplierController {
         supplier.setDescription(supplierForm.getDescription());
         supplier.setRequirements(supplierForm.getRequirements());
         supplier.setLinkFB(supplierForm.getLinkFB());
+
+        supplier.setConfirm(true);
+
         User user = userDetailService.getCurrentUser();
         supplier.setUser(user);
         supplierService.save(supplier);
@@ -64,8 +70,15 @@ public class SupplierController {
             imageService.save(image);
         });
         //Lấy ra List<image> vừa lưu vào bằng supplier của nó, rồi setImages của supplier của nó bằng với list<Image>
-        List<Image> imageList=(List)imageService.findAllBySupplier(supplier1);
+        List<Image> imageList=(List<Image>)imageService.findAllBySupplier(supplier1);
         supplier1.setImages(imageList);
+
+        List<Services> servicesList =(List<Services>) servicesService.findAllByUser(supplier1.getUser());
+        if (!servicesList.isEmpty()){
+            supplier1.setServices(servicesList);
+        }else {
+            return new ResponseEntity<>(new ResponseMessage("no"),HttpStatus.OK);
+        }
         supplierService.save(supplier1);
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
@@ -73,13 +86,15 @@ public class SupplierController {
     @GetMapping
     public ResponseEntity<?>pageFindAll(@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable){
 
-        Page<Supplier> categoryPage = supplierService.pageFindAll(pageable);
-        if (categoryPage.isEmpty()){
+        Page<Supplier> supplierPage = supplierService.pageFindAll(pageable);
+        if (supplierPage.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else {
-            return new ResponseEntity<>(categoryPage,HttpStatus.OK);
+            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
         }
     }
+
+
 
     @GetMapping("{id}")
     public ResponseEntity<?>findById(@PathVariable("id")Supplier supplier){
@@ -117,6 +132,19 @@ public class SupplierController {
         supplier.setId(id);
         supplierService.save(supplier);
         return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
+    }
+
+
+
+    @GetMapping("pageFindAllByIsConfirm")
+    public ResponseEntity<?>pageFindAllByIsConfirm(@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable){
+
+        Page<Supplier> supplierPage = supplierService.findAllByConfirm(true,pageable);
+        if (supplierPage.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+        }
     }
 
 

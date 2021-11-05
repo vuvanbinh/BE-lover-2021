@@ -10,6 +10,6 @@ public interface IService<B>{
     Page<B> pageFindAll(Pageable pageable);
     List<B> findAll();
     Optional<B> findById(Long id);
-    void save(B b);
+    B save(B b);
     void remove(Long id);
 }

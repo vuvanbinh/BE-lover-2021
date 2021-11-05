@@ -1,6 +1,7 @@
 package com.codegym.loverbe.service.services;
 
 import com.codegym.loverbe.model.Services;
+import com.codegym.loverbe.model.Supplier;
 import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.repository.IServicesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class ServicesService implements IServicesService{
     }
 
     @Override
-    public void save(Services services) {
-        servicesRepository.save(services);
+    public Services save(Services services) {
+        return servicesRepository.save(services);
     }
 
     @Override
