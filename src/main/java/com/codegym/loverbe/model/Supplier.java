@@ -28,6 +28,7 @@ public class Supplier {
     private String requirements;
     private String linkFB;
     private int count;
+    private int view;
     private boolean isActive;
     private boolean isConfirm;
     @OneToOne

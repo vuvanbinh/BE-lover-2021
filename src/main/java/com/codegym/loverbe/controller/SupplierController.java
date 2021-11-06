@@ -1,5 +1,6 @@
 package com.codegym.loverbe.controller;
 
+import com.codegym.loverbe.dto.request.SearchForm;
 import com.codegym.loverbe.dto.request.SupplierForm;
 import com.codegym.loverbe.dto.response.ResponseMessage;
 import com.codegym.loverbe.model.*;
@@ -92,7 +93,9 @@ public class SupplierController {
 
     @GetMapping("{id}")
     public ResponseEntity<?>findById(@PathVariable("id")Supplier supplier){
-        return new ResponseEntity<>(supplier,HttpStatus.OK);
+        int view = supplier.getView();
+        supplier.setView(view+1);
+        return new ResponseEntity<>(supplierService.save(supplier),HttpStatus.OK);
     }
 
     @GetMapping("findByUser")
@@ -160,5 +163,35 @@ public class SupplierController {
         supplierService.save(supplier);
         return new ResponseEntity<>(new ResponseMessage("Change IsActive success!"),HttpStatus.OK);
     }
+
+    @GetMapping("search/{name}")
+    public ResponseEntity<?>findAllByNameContaining(@PathVariable("name")String name
+             ,@PageableDefault(sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Supplier> supplierPage = supplierService.findAllByNameContaining(name, pageable);
+        if (supplierPage.isEmpty()){
+            return new ResponseEntity<>(new ResponseMessage("Is empty"),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("search")
+    public ResponseEntity<?>search(@RequestBody SearchForm searchForm
+            ,@PageableDefault(sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Supplier> supplierPage = supplierService.search(
+                searchForm.getName()
+                , searchForm.getMinYear()
+                ,searchForm.getMaxYear()
+                ,searchForm.getSex()
+                ,searchForm.getCity()
+                ,pageable);
+        if (supplierPage.isEmpty()){
+            return new ResponseEntity<>(new ResponseMessage("Is empty"),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+        }
+    }
+
+
 
 }

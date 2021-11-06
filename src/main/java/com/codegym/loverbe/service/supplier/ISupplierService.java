@@ -16,6 +16,9 @@ public interface ISupplierService extends IService<Supplier>{
     Optional<Supplier>findByUser(User user);
     Supplier findByUserId(Long id);
 
-
     Page<Supplier> findAllByConfirm(Boolean isConfirm, Pageable pageable);
+
+    Page<Supplier> findAllByNameContaining(String name,Pageable pageable);
+
+    Page<Supplier> search(String name, int minYear, int maxYear, String sex, String city,Pageable pageable);
 }

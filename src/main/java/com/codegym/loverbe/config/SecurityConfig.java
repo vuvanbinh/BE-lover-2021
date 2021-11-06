@@ -55,8 +55,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable()
-                .authorizeRequests().antMatchers("/auth/signIn","/auth/signUp","/suppliers/pageFindAllByIsConfirm/{isConfirm}"
-                ,"/suppliers/{id}").permitAll()
+                .authorizeRequests().antMatchers("/auth/signIn"
+                ,"/auth/signUp"
+                ,"/suppliers/pageFindAllByIsConfirm/{isConfirm}"
+                ,"/suppliers/{id}"
+                ,"/suppliers/search/{name}")
+                .permitAll()
 //                .antMatchers("/category/create").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
