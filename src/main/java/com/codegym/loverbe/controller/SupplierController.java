@@ -90,7 +90,6 @@ public class SupplierController {
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
 
-
     @GetMapping("{id}")
     public ResponseEntity<?>findById(@PathVariable("id")Supplier supplier){
         return new ResponseEntity<>(supplier,HttpStatus.OK);
@@ -101,8 +100,6 @@ public class SupplierController {
         User user = userDetailService.getCurrentUser();
         return new ResponseEntity<>(supplierService.findByUserId(user.getId()),HttpStatus.OK);
     }
-
-
 
     @GetMapping("/top6")
     public ResponseEntity<List<Supplier>> findTop6New() {
@@ -128,7 +125,6 @@ public class SupplierController {
         supplierService.save(supplier);
         return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
     }
-
 
 
     @GetMapping("pageFindAllByIsConfirm/{isConfirm}")
@@ -157,6 +153,12 @@ public class SupplierController {
         return new ResponseEntity<>(new ResponseMessage("Browser success!"),HttpStatus.OK);
     }
 
-
+    @PostMapping("changeIsActive/{id}")
+    public ResponseEntity<?>changeIsActive(@PathVariable("id") Supplier supplier){
+        Boolean isActive = !supplier.isActive();
+        supplier.setActive(isActive);
+        supplierService.save(supplier);
+        return new ResponseEntity<>(new ResponseMessage("Change IsActive success!"),HttpStatus.OK);
+    }
 
 }
