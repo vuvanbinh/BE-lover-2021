@@ -153,7 +153,7 @@ public class SupplierController {
         user.setRoles(roles);
         userService.save(user);
         supplierService.save(supplier);
-        return new ResponseEntity<>(new ResponseMessage("Browser success!"),HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("Success!"),HttpStatus.OK);
     }
 
     @PostMapping("changeIsActive/{id}")
@@ -175,7 +175,7 @@ public class SupplierController {
         }
     }
 
-    @GetMapping("search")
+    @PostMapping("search")
     public ResponseEntity<?>search(@RequestBody SearchForm searchForm
             ,@PageableDefault(sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
         Page<Supplier> supplierPage = supplierService.search(

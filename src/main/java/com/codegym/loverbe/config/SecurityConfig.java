@@ -59,10 +59,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ,"/auth/signUp"
                 ,"/suppliers/pageFindAllByIsConfirm/{isConfirm}"
                 ,"/suppliers/{id}"
-                ,"/suppliers/search/{name}")
+                ,"/suppliers/search/{name}"
+                ,"/users")
                 .permitAll()
 //                .antMatchers("/category/create").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/**").permitAll()
+//                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(customAccessDeniedHandler())
                 .authenticationEntryPoint(restAuthenticationEntryPoint())
