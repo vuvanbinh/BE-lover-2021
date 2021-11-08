@@ -137,7 +137,7 @@ public class SupplierController {
 
 
     @GetMapping("pageFindAllByIsConfirm")
-    public ResponseEntity<?>pageFindAllByIsConfirm(@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable){
+    public ResponseEntity<?>pageFindAllByIsConfirm(@PageableDefault(sort = "username", direction = Sort.Direction.ASC) Pageable pageable){
 
         Page<Supplier> supplierPage = supplierService.findAllByConfirm(true,pageable);
         if (supplierPage.isEmpty()){
