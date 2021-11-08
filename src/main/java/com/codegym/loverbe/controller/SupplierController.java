@@ -149,7 +149,6 @@ public class SupplierController {
 
         @GetMapping("/male")
         public ResponseEntity<?>pageFindBySex(@PageableDefault(sort = "sex", direction = Sort.Direction.ASC) Pageable pageable){
-
             Page<Supplier> supplierPage = supplierService.findSupplierBySex("nam",pageable);
             if (supplierPage.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -160,8 +159,8 @@ public class SupplierController {
 
     @GetMapping("/female")
     public ResponseEntity<?>pageUserBySex(@PageableDefault(sort = "sex", direction = Sort.Direction.ASC) Pageable pageable){
-
         Page<Supplier> supplierPage = supplierService.findUserBySex("nữ",pageable);
+
         if (supplierPage.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else {
