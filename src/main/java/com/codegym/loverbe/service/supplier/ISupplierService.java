@@ -24,4 +24,5 @@ public interface ISupplierService extends IService<Supplier>{
     List<Supplier> top4Male();
 
 
+
 }

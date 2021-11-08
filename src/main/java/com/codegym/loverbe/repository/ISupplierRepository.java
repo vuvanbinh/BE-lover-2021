@@ -21,10 +21,10 @@ public interface ISupplierRepository extends JpaRepository<Supplier,Long> {
     @Query(value = "SELECT s FROM Supplier s WHERE s.isConfirm=?1")
     Page<Supplier> findAllByConfirm(Boolean isConfirm,Pageable pageable);
 
-    @Query(value = "SELECT s FROM Supplier s WHERE s.sex='nam'")
+    @Query(value = "SELECT s FROM Supplier s  WHERE s.sex='nam' ")
     Page<Supplier> findAllBySex(String sex,Pageable pageable);
 
-    @Query(value = "SELECT s FROM Supplier s WHERE s.sex='nữ'")
+    @Query(value = "SELECT s FROM Supplier s  WHERE s.sex='nữ'  ")
     Page<Supplier> findUserBySex(String sex,Pageable pageable);
 
     @Query(" SELECT c FROM Supplier c WHERE c.sex='nữ' AND c.isConfirm=true AND c.isActive=true ORDER BY c.count DESC")
@@ -32,6 +32,7 @@ public interface ISupplierRepository extends JpaRepository<Supplier,Long> {
 
     @Query(" SELECT c FROM Supplier c WHERE c.sex='nam' AND c.isConfirm=true AND c.isActive=true ORDER BY c.count DESC")
     List<Supplier> top4Male();
+
 
 
 }

@@ -70,10 +70,6 @@ public class SupplierService implements ISupplierService{
         supplierRepository.delete(supplier);
     }
 
-
-
-
-
     @Override
     public Page<Supplier> findAllByConfirm(Boolean isConfirm, Pageable pageable) {
         return supplierRepository.findAllByConfirm(isConfirm, pageable);
@@ -98,5 +94,6 @@ public class SupplierService implements ISupplierService{
     public List<Supplier> top4Male() {
         return supplierRepository.top4Male();
     }
+
 
 }
