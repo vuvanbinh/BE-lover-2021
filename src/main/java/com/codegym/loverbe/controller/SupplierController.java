@@ -1,15 +1,15 @@
 package com.codegym.loverbe.controller;
 
+import com.codegym.loverbe.dto.request.SearchForm;
 import com.codegym.loverbe.dto.request.SupplierForm;
 import com.codegym.loverbe.dto.response.ResponseMessage;
-import com.codegym.loverbe.model.Image;
-import com.codegym.loverbe.model.Services;
-import com.codegym.loverbe.model.Supplier;
-import com.codegym.loverbe.model.User;
+import com.codegym.loverbe.model.*;
 import com.codegym.loverbe.security.userPrinciple.UserDetailServiceImpl;
 import com.codegym.loverbe.service.image.IImageService;
+import com.codegym.loverbe.service.role.IRoleService;
 import com.codegym.loverbe.service.services.IServicesService;
 import com.codegym.loverbe.service.supplier.ISupplierService;
+import com.codegym.loverbe.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/suppliers")
@@ -33,9 +31,19 @@ public class SupplierController {
     IServicesService servicesService;
     @Autowired
     ISupplierService supplierService;
+    @Autowired
+    IRoleService roleService;
+    @Autowired
+    IUserService userService;
 
     @Autowired
     IImageService imageService;
+
+
+    @GetMapping
+    public ResponseEntity<List<Supplier>>pageFindAll(){
+        return new ResponseEntity<>(supplierService.findAll(),HttpStatus.OK);
+    }
 
     @PostMapping()
     public ResponseEntity<?>create(@RequestBody SupplierForm supplierForm){
@@ -83,22 +91,11 @@ public class SupplierController {
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<?>pageFindAll(@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable){
-
-        Page<Supplier> supplierPage = supplierService.pageFindAll(pageable);
-        if (supplierPage.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }else {
-            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
-        }
-    }
-
-
-
     @GetMapping("{id}")
     public ResponseEntity<?>findById(@PathVariable("id")Supplier supplier){
-        return new ResponseEntity<>(supplier,HttpStatus.OK);
+        int view = supplier.getView();
+        supplier.setView(view+1);
+        return new ResponseEntity<>(supplierService.save(supplier),HttpStatus.OK);
     }
 
     @GetMapping("findByUser")
@@ -106,8 +103,6 @@ public class SupplierController {
         User user = userDetailService.getCurrentUser();
         return new ResponseEntity<>(supplierService.findByUserId(user.getId()),HttpStatus.OK);
     }
-
-
 
     @GetMapping("/top6")
     public ResponseEntity<List<Supplier>> findTop6New() {
@@ -135,13 +130,63 @@ public class SupplierController {
     }
 
 
+    @GetMapping("pageFindAllByIsConfirm/{isConfirm}")
+    public ResponseEntity<?>pageFindAllByIsConfirm
+            (@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable
+                    ,@PathVariable("isConfirm") Boolean isConfirm){
 
-    @GetMapping("pageFindAllByIsConfirm")
-    public ResponseEntity<?>pageFindAllByIsConfirm(@PageableDefault(sort = "username", direction = Sort.Direction.ASC) Pageable pageable){
-
-        Page<Supplier> supplierPage = supplierService.findAllByConfirm(true,pageable);
+        Page<Supplier> supplierPage = supplierService.findAllByConfirm(isConfirm,pageable);
         if (supplierPage.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("changeIsConfirm/{id}")
+    public ResponseEntity<?>changeIsConfirm(@PathVariable("id") Supplier supplier){
+        supplier.setConfirm(true);
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleService.findByName(RoleName.PM).get());
+
+        User user= supplier.getUser();
+        user.setRoles(roles);
+        userService.save(user);
+        supplierService.save(supplier);
+        return new ResponseEntity<>(new ResponseMessage("Success!"),HttpStatus.OK);
+    }
+
+    @PostMapping("changeIsActive/{id}")
+    public ResponseEntity<?>changeIsActive(@PathVariable("id") Supplier supplier){
+        Boolean isActive = !supplier.isActive();
+        supplier.setActive(isActive);
+        supplierService.save(supplier);
+        return new ResponseEntity<>(new ResponseMessage("Change IsActive success!"),HttpStatus.OK);
+    }
+
+    @GetMapping("search/{name}")
+    public ResponseEntity<?>findAllByNameContaining(@PathVariable("name")String name
+             ,@PageableDefault(sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Supplier> supplierPage = supplierService.findAllByNameContaining(name, pageable);
+        if (supplierPage.isEmpty()){
+            return new ResponseEntity<>(new ResponseMessage("Is empty"),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("search")
+    public ResponseEntity<?>search(@RequestBody SearchForm searchForm
+            ,@PageableDefault(sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Supplier> supplierPage = supplierService.search(
+                searchForm.getName()
+                , searchForm.getMinYear()
+                ,searchForm.getMaxYear()
+                ,searchForm.getSex()
+                ,searchForm.getCity()
+                ,pageable);
+        if (supplierPage.isEmpty()){
+            return new ResponseEntity<>(new ResponseMessage("Is empty"),HttpStatus.OK);
         }else {
             return new ResponseEntity<>(supplierPage,HttpStatus.OK);
         }

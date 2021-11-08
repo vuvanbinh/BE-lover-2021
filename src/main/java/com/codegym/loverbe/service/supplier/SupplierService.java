@@ -71,12 +71,20 @@ public class SupplierService implements ISupplierService{
     }
 
 
-
-
-
     @Override
     public Page<Supplier> findAllByConfirm(Boolean isConfirm, Pageable pageable) {
         return supplierRepository.findAllByConfirm(isConfirm, pageable);
     }
+
+    @Override
+    public Page<Supplier> findAllByNameContaining(String name, Pageable pageable) {
+        return supplierRepository.findAllByNameContaining(name, pageable);
+    }
+
+    @Override
+    public Page<Supplier> search(String name, int minYear, int maxYear, String city, String sex,Pageable pageable) {
+        return supplierRepository.search("%"+name+"%",minYear,maxYear,city,sex,pageable);
+    }
+
 
 }

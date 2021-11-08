@@ -70,4 +70,16 @@ public class ServicesController {
         return new ResponseEntity<>(servicesService.findAllByUser(userDetailService.getCurrentUser()),HttpStatus.OK);
     }
 
+    @PutMapping("changePriceById/{id}")
+    public ResponseEntity<?>changePriceById
+            (@PathVariable("id")Services services,@RequestParam("price") Optional<Integer> price){
+        if (price.isPresent() && price.get()>0){
+            services.setPrice(price.get());
+            servicesService.save(services);
+            return new ResponseEntity<>(new ResponseMessage("Update success!"),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(new ResponseMessage("Not Invalid!"),HttpStatus.OK);
+        }
+    }
+
 }
