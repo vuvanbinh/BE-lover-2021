@@ -72,8 +72,8 @@ public class SupplierService implements ISupplierService{
 
 
     @Override
-    public Page<Supplier> findAllByConfirm(Boolean isConfirm, Pageable pageable) {
-        return supplierRepository.findAllByConfirm(isConfirm, pageable);
+    public Page<Supplier> findAllByConfirmAndActive(Boolean isConfirm,Boolean isActive, Pageable pageable) {
+        return supplierRepository.findAllByConfirmAndActive(isConfirm,isActive, pageable);
     }
 
     @Override

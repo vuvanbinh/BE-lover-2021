@@ -41,12 +41,12 @@ public class SupplierController {
 
 
     @GetMapping
-    public ResponseEntity<List<Supplier>>pageFindAll(){
-        return new ResponseEntity<>(supplierService.findAll(),HttpStatus.OK);
+    public ResponseEntity<List<Supplier>> pageFindAll() {
+        return new ResponseEntity<>(supplierService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<?>create(@RequestBody SupplierForm supplierForm){
+    public ResponseEntity<?> create(@RequestBody SupplierForm supplierForm) {
         //chuyển tất cả dữ liệu từ supplierFrom sang supplier rồi save lại
         Supplier supplier = new Supplier();
         supplier.setName(supplierForm.getName());
@@ -61,8 +61,6 @@ public class SupplierController {
         supplier.setRequirements(supplierForm.getRequirements());
         supplier.setLinkFB(supplierForm.getLinkFB());
 
-        supplier.setConfirm(true);
-
         User user = userDetailService.getCurrentUser();
         supplier.setUser(user);
         supplierService.save(supplier);
@@ -71,37 +69,33 @@ public class SupplierController {
         // duyệt for save lần lượt vào database của bảng image
         List<String> images = supplierForm.getImages();
         Supplier supplier1 = supplierService.findByUserId(user.getId());
-        images.forEach((img)->{
+        images.forEach((img) -> {
             Image image = new Image();
             image.setImg(img);
             image.setSupplier(supplier1);
             imageService.save(image);
         });
         //Lấy ra List<image> vừa lưu vào bằng supplier của nó, rồi setImages của supplier của nó bằng với list<Image>
-        List<Image> imageList=(List<Image>)imageService.findAllBySupplier(supplier1);
+        List<Image> imageList = (List<Image>) imageService.findAllBySupplier(supplier1);
         supplier1.setImages(imageList);
 
-        List<Services> servicesList =(List<Services>) servicesService.findAllByUser(supplier1.getUser());
-        if (!servicesList.isEmpty()){
-            supplier1.setServices(servicesList);
-        }else {
-            return new ResponseEntity<>(new ResponseMessage("no"),HttpStatus.OK);
-        }
+        List<Services> servicesList = (List<Services>) servicesService.findAllByUser(supplier1.getUser());
+        supplier1.setServices(servicesList);
         supplierService.save(supplier1);
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?>findById(@PathVariable("id")Supplier supplier){
+    public ResponseEntity<?> findById(@PathVariable("id") Supplier supplier) {
         int view = supplier.getView();
-        supplier.setView(view+1);
-        return new ResponseEntity<>(supplierService.save(supplier),HttpStatus.OK);
+        supplier.setView(view + 1);
+        return new ResponseEntity<>(supplierService.save(supplier), HttpStatus.OK);
     }
 
     @GetMapping("findByUser")
-    public ResponseEntity<?>findByUser(){
+    public ResponseEntity<?> findByUser() {
         User user = userDetailService.getCurrentUser();
-        return new ResponseEntity<>(supplierService.findByUserId(user.getId()),HttpStatus.OK);
+        return new ResponseEntity<>(supplierService.findByUserId(user.getId()), HttpStatus.OK);
     }
 
     @GetMapping("/top6")
@@ -123,75 +117,74 @@ public class SupplierController {
         }
         Supplier supplier = userOptional.get();
         Integer count = supplier.getCount();
-        supplier.setCount(count+1);
+        supplier.setCount(count + 1);
         supplier.setId(id);
         supplierService.save(supplier);
         return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
     }
 
 
-    @GetMapping("pageFindAllByIsConfirm/{isConfirm}")
-    public ResponseEntity<?>pageFindAllByIsConfirm
+    @GetMapping("pageFindAllByIsConfirmAndActive/{isConfirm}/{isActive}")
+    public ResponseEntity<?> pageFindAllByIsConfirm
             (@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable
-                    ,@PathVariable("isConfirm") Boolean isConfirm){
+                    , @PathVariable("isConfirm") Boolean isConfirm, @PathVariable("isActive") Boolean isActive) {
 
-        Page<Supplier> supplierPage = supplierService.findAllByConfirm(isConfirm,pageable);
-        if (supplierPage.isEmpty()){
+        Page<Supplier> supplierPage = supplierService.findAllByConfirmAndActive(isConfirm, isActive, pageable);
+        if (supplierPage.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }else {
-            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(supplierPage, HttpStatus.OK);
         }
     }
 
     @PostMapping("changeIsConfirm/{id}")
-    public ResponseEntity<?>changeIsConfirm(@PathVariable("id") Supplier supplier){
+    public ResponseEntity<?> changeIsConfirm(@PathVariable("id") Supplier supplier) {
         supplier.setConfirm(true);
         Set<Role> roles = new HashSet<>();
         roles.add(roleService.findByName(RoleName.PM).get());
 
-        User user= supplier.getUser();
+        User user = supplier.getUser();
         user.setRoles(roles);
         userService.save(user);
         supplierService.save(supplier);
-        return new ResponseEntity<>(new ResponseMessage("Success!"),HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("Success!"), HttpStatus.OK);
     }
 
     @PostMapping("changeIsActive/{id}")
-    public ResponseEntity<?>changeIsActive(@PathVariable("id") Supplier supplier){
+    public ResponseEntity<?> changeIsActive(@PathVariable("id") Supplier supplier) {
         Boolean isActive = !supplier.isActive();
         supplier.setActive(isActive);
         supplierService.save(supplier);
-        return new ResponseEntity<>(new ResponseMessage("Change IsActive success!"),HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("Change IsActive success!"), HttpStatus.OK);
     }
 
     @GetMapping("search/{name}")
-    public ResponseEntity<?>findAllByNameContaining(@PathVariable("name")String name
-             ,@PageableDefault(sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
+    public ResponseEntity<?> findAllByNameContaining(@PathVariable("name") String name
+            , @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Supplier> supplierPage = supplierService.findAllByNameContaining(name, pageable);
-        if (supplierPage.isEmpty()){
-            return new ResponseEntity<>(new ResponseMessage("Is empty"),HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+        if (supplierPage.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("Is empty"), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(supplierPage, HttpStatus.OK);
         }
     }
 
     @PostMapping("search")
-    public ResponseEntity<?>search(@RequestBody SearchForm searchForm
-            ,@PageableDefault(sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
+    public ResponseEntity<?> search(@RequestBody SearchForm searchForm
+            , @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Supplier> supplierPage = supplierService.search(
                 searchForm.getName()
                 , searchForm.getMinYear()
-                ,searchForm.getMaxYear()
-                ,searchForm.getSex()
-                ,searchForm.getCity()
-                ,pageable);
-        if (supplierPage.isEmpty()){
-            return new ResponseEntity<>(new ResponseMessage("Is empty"),HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+                , searchForm.getMaxYear()
+                , searchForm.getSex()
+                , searchForm.getCity()
+                , pageable);
+        if (supplierPage.isEmpty()) {
+            return new ResponseEntity<>(new ResponseMessage("Is empty"), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(supplierPage, HttpStatus.OK);
         }
     }
-
 
 
 }

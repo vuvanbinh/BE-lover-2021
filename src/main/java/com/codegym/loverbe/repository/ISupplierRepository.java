@@ -19,14 +19,15 @@ public interface ISupplierRepository extends JpaRepository<Supplier,Long> {
 
     Optional<Supplier>findByUser(User user);
 
-    @Query(value = "SELECT s FROM Supplier s WHERE s.isConfirm=?1")
-    Page<Supplier> findAllByConfirm(Boolean isConfirm,Pageable pageable);
+
+    @Query(value = "SELECT s FROM Supplier s WHERE s.isConfirm=?1 AND s.isActive=?2")
+    Page<Supplier> findAllByConfirmAndActive(Boolean isConfirm,Boolean isActive,Pageable pageable);
 
     Page<Supplier> findAllByNameContaining(String name,Pageable pageable);
 
     @Query(value = "SELECT s FROM Supplier s " +
             "WHERE s.name LIKE ?1 " +
-            "AND (s.yearOfBirth BETWEEN ?2 AND ?3) AND s.sex=?4 AND s.city=?5 AND s.isActive=true")
+            "AND (s.yearOfBirth BETWEEN ?2 AND ?3) AND s.sex=?4 AND s.city=?5 AND s.isConfirm=true AND s.isActive=true")
     Page<Supplier> search(String name, int minYear, int maxYear, String sex, String city,Pageable pageable);
 
 
