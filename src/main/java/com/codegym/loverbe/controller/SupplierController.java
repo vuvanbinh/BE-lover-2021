@@ -167,4 +167,23 @@ public class SupplierController {
             return new ResponseEntity<>(supplierPage,HttpStatus.OK);
         }
     }
+
+    @GetMapping("/top12ViewAll")
+    public ResponseEntity<List<Supplier>> findTop8Female() {
+        List<Supplier> supplierList = supplierService.top8Female();
+        List<Supplier> supplierList1 = supplierService.top4Male();
+        List<Supplier> listtop = new ArrayList<>();
+        List<Supplier> list = new ArrayList<>();
+        List<Supplier> listAll = new ArrayList<>();
+        for (int j= 0; j<4 ; j++) {
+            list.add(supplierList1.get(j));
+        }
+        for (int i = 0; i < 8; i++) {
+            listtop.add(supplierList.get(i));
+        }
+        listAll.addAll(list);
+        listAll.addAll(listtop);
+        return new ResponseEntity<>(listAll, HttpStatus.OK);
+
+    }
 }

@@ -89,4 +89,14 @@ public class SupplierService implements ISupplierService{
         return supplierRepository.findUserBySex(sex,pageable);
     }
 
+    @Override
+    public List<Supplier> top8Female() {
+        return supplierRepository.top8Female();
+    }
+
+    @Override
+    public List<Supplier> top4Male() {
+        return supplierRepository.top4Male();
+    }
+
 }
