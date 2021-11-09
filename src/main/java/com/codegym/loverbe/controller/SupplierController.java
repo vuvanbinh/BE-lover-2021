@@ -35,7 +35,6 @@ public class SupplierController {
     IRoleService roleService;
     @Autowired
     IUserService userService;
-
     @Autowired
     IImageService imageService;
 
