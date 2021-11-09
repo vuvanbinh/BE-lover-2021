@@ -37,6 +37,12 @@ public class UserController {
         return new ResponseEntity<>(new ResponseMessage("Success!"),HttpStatus.OK);
     }
 
+    @GetMapping("/allOrder")
+    public ResponseEntity<Iterable<Order>> findAllOrder(){
+        return new ResponseEntity<>(orderService.findAll(), HttpStatus.OK);
+    }
+
+
     @GetMapping("/accomplished")
     public ResponseEntity<List<Order>> listAccomplished() {
         List<Order> orderList = orderService.listAccomplished();

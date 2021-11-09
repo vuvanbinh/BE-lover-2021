@@ -64,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ,"/orders"
                 ,"/users/accomplished"
                 ,"/users/wait"
+                ,"/users/allOrder"
                 ,"/users/received")
                 .permitAll()
 //                .antMatchers("/category/create").access("hasRole('ROLE_ADMIN')")
