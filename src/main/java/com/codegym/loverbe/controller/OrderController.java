@@ -34,7 +34,7 @@ public class OrderController {
         User user = userDetailService.getCurrentUser();
         List<Order> orderList = orderService.findAllByUser(user);
         if (orderList.isEmpty()){
-            return new ResponseEntity<>(new ResponseMessage("Is emty!"),HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessage("Is empty!"),HttpStatus.OK);
         }else return new ResponseEntity<>(orderList,HttpStatus.OK);
     }
 
@@ -42,7 +42,7 @@ public class OrderController {
     public ResponseEntity<?> findAllBySupplier(@PathVariable("id") Supplier supplier){
         List<Order> orderList = orderService.findAllBySupplier(supplier);
         if (orderList.isEmpty()){
-            return new ResponseEntity<>(new ResponseMessage("Is emty!"),HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessage("Is empty!"),HttpStatus.OK);
         }else return new ResponseEntity<>(orderList,HttpStatus.OK);
     }
 
@@ -76,7 +76,6 @@ public class OrderController {
                 case "Chờ phản hồi":
                     order.setStatusOrder("Đã nhận");
                     orderService.save(order);
-
                     sendmail.setTo(order.getUser().getEmail());
                     sendmail.setSubject("Người yêu mà bạn thuê đã xác nhận đơn rồi");
                     sendmail.setText("Người yêu mà bạn thuê đã xác nhận đơn rồi");
@@ -87,12 +86,21 @@ public class OrderController {
                     orderService.save(order);
                     break;
             }
-        return new ResponseEntity<>(new ResponseMessage("Thay doi thanh cong"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("Update success!"), HttpStatus.OK);
     }
 //Viết API cho detail của tất cả các đơn
-    @GetMapping("/detail/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<?> detailOrder(@PathVariable("id") Long idOrder){
         Order order = orderService.findById(idOrder).get();
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
+
+    @PutMapping("feedback/{id}")
+    public ResponseEntity<?> changeFeedback(@PathVariable("id") Order order, @RequestParam("feedback")String feedback ){
+        order.setFeedback(feedback);
+        orderService.save(order);
+        return new ResponseEntity<>(new ResponseMessage("Update success!"),HttpStatus.OK);
+    }
+
+
 }
