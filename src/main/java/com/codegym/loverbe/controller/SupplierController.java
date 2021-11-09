@@ -185,6 +185,45 @@ public class SupplierController {
         }
     }
 
+        @GetMapping("/male")
+        public ResponseEntity<?>pageFindBySex(@PageableDefault(sort = "sex", direction = Sort.Direction.ASC) Pageable pageable){
+            Page<Supplier> supplierPage = supplierService.findSupplierBySex("nam",pageable);
+            if (supplierPage.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }else {
+                return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+            }
+        }
+
+    @GetMapping("/female")
+    public ResponseEntity<?>pageUserBySex(@PageableDefault(sort = "sex", direction = Sort.Direction.ASC) Pageable pageable){
+        Page<Supplier> supplierPage = supplierService.findUserBySex("nữ",pageable);
+        if (supplierPage.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/top12ViewAll")
+    public ResponseEntity<List<Supplier>> findTop8Female() {
+        List<Supplier> supplierList = supplierService.top8Female();
+        List<Supplier> supplierList1 = supplierService.top4Male();
+        List<Supplier> listtop = new ArrayList<>();
+        List<Supplier> list = new ArrayList<>();
+        List<Supplier> listAll = new ArrayList<>();
+        for (int j= 0; j<4 ; j++) {
+            list.add(supplierList1.get(j));
+        }
+        for (int i = 0; i < 8; i++) {
+            listtop.add(supplierList.get(i));
+        }
+        listAll.addAll(list);
+        listAll.addAll(listtop);
+        return new ResponseEntity<>(listAll, HttpStatus.OK);
+
+    }
+
     @GetMapping("/vip/{id}")
     public ResponseEntity<Supplier> setVip(@PathVariable Long id) {
         Optional<Supplier> userOptional = supplierService.findById(id);
@@ -227,5 +266,16 @@ public class SupplierController {
         return new ResponseEntity<>(listtop, HttpStatus.OK);
 
     }
+    @GetMapping("pageFindAllByIsConfirm/{isConfirm}")
+    public ResponseEntity<?>pageFindAllByIsConfirm
+            (@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable
+                    ,@PathVariable("isConfirm") Boolean isConfirm){
 
- }
+        Page<Supplier> supplierPage = supplierService.findAllByConfirm(isConfirm,pageable);
+        if (supplierPage.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+        }
+    }
+    }

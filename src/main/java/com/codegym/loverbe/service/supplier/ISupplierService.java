@@ -27,4 +27,13 @@ public interface ISupplierService extends IService<Supplier>{
     List<Supplier> find12SupByMale();
 
 
+    Page<Supplier> findAllByConfirm(Boolean isConfirm, Pageable pageable);
+
+    Page<Supplier> findSupplierBySex(String sex,Pageable pageable);
+    Page<Supplier> findUserBySex(String sex,Pageable pageable);
+    List<Supplier> top8Female();
+    List<Supplier> top4Male();
+
+
+
 }

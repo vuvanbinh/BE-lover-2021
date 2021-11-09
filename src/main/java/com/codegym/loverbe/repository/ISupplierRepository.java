@@ -5,7 +5,6 @@ import com.codegym.loverbe.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -35,6 +34,22 @@ public interface ISupplierRepository extends JpaRepository<Supplier,Long> {
 
     @Query(value = "select s from Supplier s where s.sex='nam' and s.isActive=true and s.isConfirm=true ")
     List<Supplier> find12SupByMale();
+
+    @Query(value = "SELECT s FROM Supplier s  WHERE s.sex='nam' ")
+    Page<Supplier> findAllBySex(String sex,Pageable pageable);
+
+    @Query(value = "SELECT s FROM Supplier s  WHERE s.sex='nữ'  ")
+    Page<Supplier> findUserBySex(String sex,Pageable pageable);
+
+    @Query(" SELECT c FROM Supplier c WHERE c.sex='nữ' AND c.isConfirm=true AND c.isActive=true ORDER BY c.count DESC")
+    List<Supplier> top8Female();
+
+    @Query(" SELECT c FROM Supplier c WHERE c.sex='nam' AND c.isConfirm=true AND c.isActive=true ORDER BY c.count DESC")
+    List<Supplier> top4Male();
+
+    @Query(value = "SELECT s FROM Supplier s WHERE s.isConfirm=?1")
+    Page<Supplier> findAllByConfirm(Boolean isConfirm,Pageable pageable);
+
 
 
 }
