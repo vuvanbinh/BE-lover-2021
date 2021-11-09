@@ -21,4 +21,10 @@ public interface ISupplierService extends IService<Supplier>{
     Page<Supplier> findAllByNameContaining(String name,Pageable pageable);
 
     Page<Supplier> search(String name, int minYear, int maxYear, String sex, String city,Pageable pageable);
+
+    List<Supplier> find12SupByFemale();
+
+    List<Supplier> find12SupByMale();
+
+
 }

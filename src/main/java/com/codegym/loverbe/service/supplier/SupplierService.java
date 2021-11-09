@@ -86,5 +86,15 @@ public class SupplierService implements ISupplierService{
         return supplierRepository.search("%"+name+"%",minYear,maxYear,city,sex,pageable);
     }
 
+    @Override
+    public List<Supplier> find12SupByFemale() {
+        return supplierRepository.find12SupByFemale();
+    }
+
+    @Override
+    public List<Supplier> find12SupByMale() {
+        return supplierRepository.find12SupByMale();
+    }
+
 
 }
