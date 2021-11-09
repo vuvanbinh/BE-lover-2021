@@ -197,4 +197,34 @@ public class SupplierController {
         supplierService.save(supplier);
         return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
     }
-}
+
+    @GetMapping("/12Female")
+    public ResponseEntity<List<Supplier>> find12SupByFemale() {
+        List<Supplier> supplierList = supplierService.find12SupByFemale();
+        List<Supplier> listtop = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            int max = supplierList.size();
+            int min = 0;
+            int range = max - min;
+            int index  = (int)(Math.random() * range) + min;
+            listtop.add(supplierList.get(index));
+        }
+        return new ResponseEntity<>(listtop, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/12Male")
+    public ResponseEntity<List<Supplier>> find12SupByMale() {
+        List<Supplier> supplierList = supplierService.find12SupByMale();
+        List<Supplier> listtop = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            int max = supplierList.size();
+            int min = 0;
+            int range = max - min;
+            int index  = (int)(Math.random() * range) + min;
+            listtop.add(supplierList.get(index));
+        }
+        return new ResponseEntity<>(listtop, HttpStatus.OK);
+
+    }
+    }

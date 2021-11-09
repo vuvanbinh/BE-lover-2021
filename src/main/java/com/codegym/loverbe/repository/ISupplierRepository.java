@@ -30,8 +30,11 @@ public interface ISupplierRepository extends JpaRepository<Supplier,Long> {
             "AND (s.yearOfBirth BETWEEN ?2 AND ?3) AND s.sex=?4 AND s.city=?5 AND s.isConfirm=true AND s.isActive=true")
     Page<Supplier> search(String name, int minYear, int maxYear, String sex, String city,Pageable pageable);
 
+    @Query(value = "select s from Supplier s where s.sex='nữ' and s.isActive=true and s.isConfirm=true ")
+    List<Supplier> find12SupByFemale();
 
-
+    @Query(value = "select s from Supplier s where s.sex='nam' and s.isActive=true and s.isConfirm=true ")
+    List<Supplier> find12SupByMale();
 
 
 }
