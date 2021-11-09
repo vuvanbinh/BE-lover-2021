@@ -266,4 +266,16 @@ public class SupplierController {
         return new ResponseEntity<>(listtop, HttpStatus.OK);
 
     }
+    @GetMapping("pageFindAllByIsConfirm/{isConfirm}")
+    public ResponseEntity<?>pageFindAllByIsConfirm
+            (@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable
+                    ,@PathVariable("isConfirm") Boolean isConfirm){
+
+        Page<Supplier> supplierPage = supplierService.findAllByConfirm(isConfirm,pageable);
+        if (supplierPage.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>(supplierPage,HttpStatus.OK);
+        }
+    }
     }
