@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ,"/suppliers/search/{name}"
                 ,"/users"
                 ,"/orders"
-                ,"/users/accomplished"
+                ,"/users/accomplished/{id}"
                 ,"/users/wait"
                 ,"/users/allOrder"
                 ,"/users/received")

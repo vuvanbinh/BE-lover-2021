@@ -38,8 +38,8 @@ public class OrderController {
     }
 
     @GetMapping("/accomplished")
-    public ResponseEntity<List<Order>> listAccomplished() {
-        List<Order> orderList = orderService.listAccomplished();
+    public ResponseEntity<List<Order>> listAccomplished(@PathVariable User id) {
+        List<Order> orderList = orderService.listAccomplished(id);
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 

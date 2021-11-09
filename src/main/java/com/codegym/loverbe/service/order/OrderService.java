@@ -1,6 +1,7 @@
 package com.codegym.loverbe.service.order;
 
 import com.codegym.loverbe.model.Order;
+import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.repository.IOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,12 +42,12 @@ public class OrderService implements IOrderService{
     }
 
     @Override
-    public List<Order> listAccomplished() {
-        return orderRepository.listAccomplished();
+    public List<Order> listAccomplished(User user) {
+        return orderRepository.listAccomplished(user);
     }
 
     @Override
-    public List<Order> listWait() {
+    public List<Order> listWait( ) {
         return orderRepository.listWait();
     }
 

@@ -2,7 +2,6 @@ package com.codegym.loverbe.controller;
 
 import com.codegym.loverbe.dto.response.ResponseMessage;
 import com.codegym.loverbe.model.Order;
-import com.codegym.loverbe.model.Supplier;
 import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.service.order.IOrderService;
 import com.codegym.loverbe.service.user.IUserService;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -43,9 +41,9 @@ public class UserController {
     }
 
 
-    @GetMapping("/accomplished")
-    public ResponseEntity<List<Order>> listAccomplished() {
-        List<Order> orderList = orderService.listAccomplished();
+    @GetMapping("/accomplished/{id}")
+    public ResponseEntity<List<Order>> listAccomplished(@PathVariable User id) {
+        List<Order> orderList = orderService.listAccomplished(id);
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
