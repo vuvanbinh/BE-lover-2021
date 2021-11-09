@@ -39,4 +39,19 @@ public class OrderService implements IOrderService{
     @Override
     public void remove(Long id) {
     }
+
+    @Override
+    public List<Order> listAccomplished() {
+        return orderRepository.listAccomplished();
+    }
+
+    @Override
+    public List<Order> listWait() {
+        return orderRepository.listWait();
+    }
+
+    @Override
+    public List<Order> listReceived() {
+        return orderRepository.listReceived();
+    }
 }
