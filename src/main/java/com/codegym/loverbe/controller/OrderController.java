@@ -27,6 +27,26 @@ public class OrderController {
     @Autowired
     JavaMailSender javaMailSender;
 
+
+
+    @GetMapping("findAllByUser")
+    public ResponseEntity<?> findAllByUser(){
+        User user = userDetailService.getCurrentUser();
+        List<Order> orderList = orderService.findAllByUser(user);
+        if (orderList.isEmpty()){
+            return new ResponseEntity<>(new ResponseMessage("Is emty!"),HttpStatus.OK);
+        }else return new ResponseEntity<>(orderList,HttpStatus.OK);
+    }
+
+    @GetMapping("findAllBySupplier/{id}")
+    public ResponseEntity<?> findAllBySupplier(@PathVariable("id") Supplier supplier){
+        List<Order> orderList = orderService.findAllBySupplier(supplier);
+        if (orderList.isEmpty()){
+            return new ResponseEntity<>(new ResponseMessage("Is emty!"),HttpStatus.OK);
+        }else return new ResponseEntity<>(orderList,HttpStatus.OK);
+    }
+
+
     @PostMapping
     public ResponseEntity<?>create(@RequestBody Order order){
         User user = userDetailService.getCurrentUser();

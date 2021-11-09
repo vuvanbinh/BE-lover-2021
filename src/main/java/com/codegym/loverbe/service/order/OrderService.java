@@ -1,6 +1,8 @@
 package com.codegym.loverbe.service.order;
 
 import com.codegym.loverbe.model.Order;
+import com.codegym.loverbe.model.Supplier;
+import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.repository.IOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,4 +56,16 @@ public class OrderService implements IOrderService{
     public List<Order> listReceived() {
         return orderRepository.listReceived();
     }
+
+    @Override
+    public List<Order> findAllBySupplier(Supplier supplier) {
+        return orderRepository.findAllBySupplier(supplier);
+    }
+
+    @Override
+    public List<Order> findAllByUser(User user) {
+        return orderRepository.findAllByUser(user);
+    }
+
+
 }
