@@ -32,7 +32,7 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
-
+local.env
 ### VS Code ###
 .vscode/
 local.env
