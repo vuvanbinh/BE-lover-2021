@@ -23,7 +23,7 @@ public class Order {
     private int totalTime;
     private int hourStart;
     private LocalDate dayStart;
-        private int totalMoney;
+    private int totalMoney;
     private String statusOrder;
     private String feedback;
 }

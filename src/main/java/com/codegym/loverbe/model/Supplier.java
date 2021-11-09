@@ -31,6 +31,7 @@ public class Supplier {
     private int view;
     private boolean isActive;
     private boolean isConfirm;
+    private boolean isVip;
     @OneToOne
     private User user;
 }

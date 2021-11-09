@@ -60,7 +60,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ,"/suppliers/pageFindAllByIsConfirmAndActive/{isConfirm}/{isActive}"
                 ,"/suppliers/{id}"
                 ,"/suppliers/search/{name}"
-                ,"/users")
+                ,"/users"
+                ,"/orders"
+                ,"/users/accomplished"
+                ,"/users/wait"
+                ,"/users/allOrder"
+                ,"/users/received")
                 .permitAll()
 //                .antMatchers("/category/create").access("hasRole('ROLE_ADMIN')")
 //                .antMatchers("/**").permitAll()
