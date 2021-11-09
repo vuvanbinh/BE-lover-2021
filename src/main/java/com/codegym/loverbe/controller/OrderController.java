@@ -37,5 +37,10 @@ public class OrderController {
         return new ResponseEntity<>(orderService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/accomplished")
+    public ResponseEntity<List<Order>> listAccomplished() {
+        List<Order> orderList = orderService.listAccomplished();
+        return new ResponseEntity<>(orderList, HttpStatus.OK);
+    }
 
 }
