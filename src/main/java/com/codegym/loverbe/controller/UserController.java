@@ -4,6 +4,7 @@ import com.codegym.loverbe.dto.response.ResponseMessage;
 import com.codegym.loverbe.model.Order;
 import com.codegym.loverbe.model.Services;
 import com.codegym.loverbe.model.User;
+import com.codegym.loverbe.security.userPrinciple.UserDetailServiceImpl;
 import com.codegym.loverbe.service.order.IOrderService;
 import com.codegym.loverbe.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class UserController {
 
     @Autowired
     private IOrderService orderService;
+
+    @Autowired
+    private UserDetailServiceImpl userDetailService;
 
     @GetMapping
     public ResponseEntity<Iterable<User>> findAll(){
@@ -60,11 +64,10 @@ public class UserController {
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable("id") User users, @RequestBody User newUser){
-        newUser.setId(users.getId());
-        userService.save(newUser);
-        return new ResponseEntity<>(new ResponseMessage("Update success!"),HttpStatus.OK);
+    @PutMapping("/changeAvatar/{id}")
+    public ResponseEntity<?> changeAvatar(@PathVariable("id") User user, @RequestParam("avatar") String avatar){
+        user.setAvatar(avatar);
+        userService.save(user);
+        return new ResponseEntity<>(new ResponseMessage("Change avatar success"), HttpStatus.OK);
     }
-
 }
