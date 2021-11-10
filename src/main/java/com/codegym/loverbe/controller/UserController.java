@@ -2,6 +2,7 @@ package com.codegym.loverbe.controller;
 
 import com.codegym.loverbe.dto.response.ResponseMessage;
 import com.codegym.loverbe.model.Order;
+import com.codegym.loverbe.model.Services;
 import com.codegym.loverbe.model.User;
 import com.codegym.loverbe.service.order.IOrderService;
 import com.codegym.loverbe.service.user.IUserService;
@@ -57,6 +58,13 @@ public class UserController {
     public ResponseEntity<List<Order>> listReceived() {
         List<Order> orderList = orderService.listReceived();
         return new ResponseEntity<>(orderList, HttpStatus.OK);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> update(@PathVariable("id") User users, @RequestBody User newUser){
+        newUser.setId(users.getId());
+        userService.save(newUser);
+        return new ResponseEntity<>(new ResponseMessage("Update success!"),HttpStatus.OK);
     }
 
 }

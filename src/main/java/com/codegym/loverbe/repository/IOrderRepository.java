@@ -1,6 +1,7 @@
 package com.codegym.loverbe.repository;
 
 import com.codegym.loverbe.model.Order;
+import com.codegym.loverbe.model.Supplier;
 import com.codegym.loverbe.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,8 @@ public interface IOrderRepository extends JpaRepository<Order,Long> {
 
     @Query(value = "select o from Order o where o.statusOrder='đã nhận' ")
     List<Order> listReceived();
+
+    List<Order> findAllBySupplier (Supplier supplier);
+
+    List<Order> findAllByUser(User user);
 }

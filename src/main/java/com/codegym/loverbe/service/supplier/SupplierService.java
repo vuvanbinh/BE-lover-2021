@@ -70,6 +70,10 @@ public class SupplierService implements ISupplierService{
         supplierRepository.delete(supplier);
     }
 
+    @Override
+    public Page<Supplier> findAllByConfirm(Boolean isConfirm, Pageable pageable) {
+        return supplierRepository.findAllByConfirm(isConfirm, pageable);
+    }
 
     @Override
     public Page<Supplier> findAllByConfirmAndActive(Boolean isConfirm,Boolean isActive, Pageable pageable) {
@@ -84,6 +88,35 @@ public class SupplierService implements ISupplierService{
     @Override
     public Page<Supplier> search(String name, int minYear, int maxYear, String city, String sex,Pageable pageable) {
         return supplierRepository.search("%"+name+"%",minYear,maxYear,city,sex,pageable);
+    }
+
+    @Override
+    public List<Supplier> find12SupByFemale() {
+        return supplierRepository.find12SupByFemale();
+    }
+
+    @Override
+    public List<Supplier> find12SupByMale() {
+        return supplierRepository.find12SupByMale();}
+
+
+    public Page<Supplier> findSupplierBySex(String sex,Pageable pageable) {
+        return supplierRepository.findAllBySex(sex, pageable);
+    }
+
+    @Override
+    public Page<Supplier> findUserBySex(String sex, Pageable pageable) {
+        return supplierRepository.findUserBySex(sex,pageable);
+    }
+
+    @Override
+    public List<Supplier> top8Female() {
+        return supplierRepository.top8Female();
+    }
+
+    @Override
+    public List<Supplier> top4Male() {
+        return supplierRepository.top4Male();
     }
 
 
