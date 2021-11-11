@@ -78,6 +78,7 @@ public class SupplierController {
         List<Image> imageList = (List<Image>) imageService.findAllBySupplier(supplier1);
         supplier1.setImages(imageList);
 
+
         List<Services> servicesList = (List<Services>) servicesService.findAllByUser(supplier1.getUser());
         supplier1.setServices(servicesList);
         supplierService.save(supplier1);
@@ -125,7 +126,7 @@ public class SupplierController {
 
     @GetMapping("pageFindAllByIsConfirmAndActive/{isConfirm}/{isActive}")
     public ResponseEntity<?> pageFindAllByIsConfirm
-            (@PageableDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable
+            (@PageableDefault(sort = "view", direction = Sort.Direction.DESC) Pageable pageable
                     , @PathVariable("isConfirm") Boolean isConfirm, @PathVariable("isActive") Boolean isActive) {
 
         Page<Supplier> supplierPage = supplierService.findAllByConfirmAndActive(isConfirm, isActive, pageable);
@@ -139,6 +140,7 @@ public class SupplierController {
     @PostMapping("changeIsConfirm/{id}")
     public ResponseEntity<?> changeIsConfirm(@PathVariable("id") Supplier supplier) {
         supplier.setConfirm(true);
+        supplier.setActive(true);
         Set<Role> roles = new HashSet<>();
         roles.add(roleService.findByName(RoleName.PM).get());
 

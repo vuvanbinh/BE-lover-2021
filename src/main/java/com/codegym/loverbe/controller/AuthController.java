@@ -93,7 +93,7 @@ public class AuthController {
         user.setPhoneNumber(signUpForm.getPhoneNumber());
         user.setAvatar("https://firebasestorage.googleapis.com/v0/b/vubinh-84277.appspot.com/o/download.png?alt=media&token=3dbee61a-2e0e-4e66-9316-f7ec88b90bef");
         user.setJoinDate(signUpForm.getJoinDate());
-        user.setIsBlock(false);
+        user.setIsBlock(true);
         Set<String> strRole = signUpForm.getRoles();
         Set<Role> roles = new HashSet<>();
         strRole.forEach(role -> {

@@ -61,4 +61,11 @@ public class UserController {
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
+    @PutMapping("/changeAvatar/{id}")
+    public ResponseEntity<?>updateAvatar(@PathVariable("id")User user,@RequestParam("avatar")String avatar){
+        user.setAvatar(avatar);
+        userService.save(user);
+        return new ResponseEntity<>(new ResponseMessage("Update success!"),HttpStatus.OK);
+    }
+
 }
