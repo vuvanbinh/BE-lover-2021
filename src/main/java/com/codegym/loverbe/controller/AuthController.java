@@ -62,16 +62,21 @@ public class AuthController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtProvider.createToken(authentication);
             UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-            return ResponseEntity.ok(new JwtResponse(
-                    token
-                    , userPrinciple.getId()
-                    , userPrinciple.getUsername()
-                    , userPrinciple.getEmail()
-                    , userPrinciple.getPhoneNumber()
-                    , userPrinciple.getAvatar()
-                    , userPrinciple.getJoinDate()
-                    , userPrinciple.getIsBlock()
-                    , userPrinciple.getAuthorities()));
+            if (userPrinciple.getIsBlock()==false){
+                return new ResponseEntity<>(new ResponseMessage("isBlock"),HttpStatus.OK);
+            }else {
+                return ResponseEntity.ok(new JwtResponse(
+                        token
+                        , userPrinciple.getId()
+                        , userPrinciple.getUsername()
+                        , userPrinciple.getEmail()
+                        , userPrinciple.getPhoneNumber()
+                        , userPrinciple.getAvatar()
+                        , userPrinciple.getJoinDate()
+                        , userPrinciple.getIsBlock()
+                        , userPrinciple.getAuthorities()));
+            }
+
         }catch (Exception e){
             return new ResponseEntity<>(new ResponseMessage("no"), HttpStatus.OK);
         }

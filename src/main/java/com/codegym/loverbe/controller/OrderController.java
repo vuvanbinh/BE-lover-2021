@@ -49,11 +49,15 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<?>create(@RequestBody Order order){
-        User user = userDetailService.getCurrentUser();
-        order.setStatusOrder("Chờ phản hồi");
-        order.setUser(user);
-        orderService.save(order);
-        return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
+        try{
+            User user = userDetailService.getCurrentUser();
+            order.setStatusOrder("Chờ phản hồi");
+            order.setUser(user);
+            orderService.save(order);
+            return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
+        }
     }
 
     @GetMapping
@@ -83,6 +87,10 @@ public class OrderController {
                     break;
                 case "Đã nhận":
                     order.setStatusOrder("Đã hoàn thành");
+                    orderService.save(order);
+                    break;
+                case "Đã hoàn thành":
+                    order.setStatusOrder("Đã nhận tiền");
                     orderService.save(order);
                     break;
             }
