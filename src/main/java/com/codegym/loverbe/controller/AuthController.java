@@ -126,5 +126,4 @@ public class AuthController {
         return new ResponseEntity<>(new ResponseMessage("Create success!"), HttpStatus.OK);
     }
 
-
 }

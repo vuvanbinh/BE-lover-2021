@@ -17,7 +17,5 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
             (HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write("Chưa đăng nhập");
-//        logger.error("Unauthorized error. Message - {}", e.getMessage());
-//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error -> Unauthorized");
     }
 }
